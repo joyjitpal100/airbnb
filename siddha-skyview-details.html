@@ -13,223 +13,193 @@
         }
         
         body {
-            background-color: #f5f5f5;
+            background-color: #f4f4f4;
             color: #333;
+            line-height: 1.6;
         }
-        
+
         .navbar {
-            background-color: white;
+            background-color: #fff;
             padding: 15px 20px;
             display: flex;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .back-button {
             font-size: 24px;
-            text-decoration: none;
             color: #333;
             margin-right: 20px;
+            cursor: pointer;
         }
-        
+
         .property-title {
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
         }
-        
+
         .image-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 250px 120px;
-            gap: 4px;
-            padding: 2px;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 280px 140px;
+            gap: 8px;
+            padding: 12px;
         }
-        
+
         .main-image {
-            grid-column: 1;
+            grid-column: 1 / span 2;
             grid-row: 1 / span 2;
-            height: 100%;
             width: 100%;
+            height: 100%;
             object-fit: cover;
+            border-radius: 10px;
         }
-        
+
         .side-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 10px;
         }
-        
+
         .property-info {
             padding: 20px;
-            background-color: white;
-            margin-top: 2px;
+            background-color: #fff;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .property-header {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
-        
+
         .property-location {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             margin-bottom: 5px;
+            color: #444;
         }
-        
+
         .property-details {
-            color: #666;
             font-size: 14px;
+            color: #777;
         }
-        
+
+        .rating-section, .host-section, .feature-section, .description-section, .location-section {
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
         .rating-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            background-color: white;
+            border-bottom: 1px solid #f2f2f2;
         }
-        
+
         .rating-left {
             display: flex;
             align-items: center;
         }
-        
+
         .rating-badge {
-            background-color: #f2f2f2;
+            background-color: #f1f1f1;
             border-radius: 20px;
             padding: 8px 12px;
             font-size: 14px;
+            color: #e31c5f;
+            font-weight: bold;
             margin-right: 10px;
         }
-        
+
         .rating-score {
+            font-size: 18px;
             font-weight: bold;
-            font-size: 16px;
+            color: #e31c5f;
         }
-        
+
         .rating-count {
-            color: #666;
+            color: #777;
             font-size: 14px;
         }
-        
-        .host-section {
-            padding: 15px 20px;
-            background-color: white;
-            border-bottom: 1px solid #eee;
+
+        .host-info {
             display: flex;
             align-items: center;
         }
-        
+
         .host-image {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             margin-right: 15px;
         }
-        
-        .host-info {
-            flex: 1;
-        }
-        
+
         .host-name {
             font-weight: 500;
             margin-bottom: 5px;
+            font-size: 16px;
         }
-        
+
         .host-status {
-            color: #666;
             font-size: 14px;
+            color: #777;
         }
-        
-        .feature-section {
-            padding: 15px 20px;
-            background-color: white;
-            margin-top: 10px;
+
+        .feature-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-section li {
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .feature-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 15px;
-        }
-        
-        .feature-info h3 {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-        
-        .feature-info p {
-            color: #666;
+            margin-bottom: 8px;
             font-size: 14px;
+            color: #666;
         }
-        
-        .description-section {
-            padding: 15px 20px;
-            background-color: white;
-            margin-top: 10px;
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
         }
-        
+
         .description-text {
-            line-height: 1.5;
-            color: #333;
             font-size: 15px;
+            color: #444;
+            line-height: 1.7;
             margin-bottom: 15px;
         }
-        
-        .show-more {
-            color: #333;
-            font-weight: 500;
-            text-decoration: none;
-            font-size: 15px;
-            display: inline-block;
-        }
-        
-        .sleep-section {
-            padding: 15px 20px;
-            background-color: white;
-            margin-top: 10px;
-        }
-        
-        .sleep-heading {
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-        
-        .bedroom-image {
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
+
+        .location-section iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
             border-radius: 10px;
         }
-        
-        .bedroom-info {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        
-        .bedroom-type {
-            font-weight: 500;
-        }
-        
+
         .booking-section {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: white;
-            padding: 15px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
+            z-index: 10;
         }
-        
+
         .booking-button {
             background-color: #e31c5f;
             color: white;
@@ -240,31 +210,44 @@
             font-weight: 500;
             width: 100%;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .booking-button:hover {
+            background-color: #c4174a;
+        }
+
+        .show-more {
+            color: #e31c5f;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
+
     <div class="navbar">
         <a href="javascript:history.back()" class="back-button">×</a>
         <div class="property-title">Siddha SkyView Studio, Pool Near Airport, CC2 Mall</div>
     </div>
-    
+
     <div class="image-grid">
         <img src="604.jpg" alt="Living Room" class="main-image">
         <img src="604-1.jpg" alt="Bedroom" class="side-image">
         <img src="604-2.jpeg" alt="Pool" class="side-image">
     </div>
-    
+
     <div class="property-info">
         <div class="property-header">
             <h1 class="property-location">Entire apartment in Kolkata, India</h1>
             <p class="property-details">4 guests · 1 bedroom · 2 beds · 1 bathroom</p>
         </div>
     </div>
-    
+
     <div class="rating-section">
         <div class="rating-left">
-            <div class="rating-badge">Guest favorite</div>
+            <div class="rating-badge">Guest Favorite</div>
             <div class="rating-text">One of the most loved homes, according to guests</div>
         </div>
         <div class="rating-right">
@@ -272,7 +255,7 @@
             <span class="rating-count">(86 reviews)</span>
         </div>
     </div>
-    
+
     <div class="host-section">
         <img src="Sona.jpeg" alt="Host" class="host-image">
         <div class="host-info">
@@ -280,58 +263,38 @@
             <div class="host-status">Superhost · 3 years hosting</div>
         </div>
     </div>
-    
+
     <div class="feature-section">
-        <svg class="feature-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M26 2a1 1 0 0 1 .922.612l.04.113 2 7a1 1 0 0 1-.847 1.269L28 11h-3v5h6v2h-2v13h-2l-.001-2.06a6.917 6.917 0 0 1-3.66 1.04 7.12 7.12 0 0 1-2.608-.503 6.984 6.984 0 0 1-6.393 4.243 6.897 6.897 0 0 1-4.587-1.724A6.997 6.997 0 0 1 3 25.978l-.176-.831L2.797 25h-1.82L1 28.002 1.001 31H19.5l.5-2h10.999l.5 2H31v-2.308a19.91 19.91 0 0 1-2-1.01l-.5-.302-.499.302c-1.092.66-2.082 1.082-2.97 1.269l-.332.06-.698.09V16h-2v5.387a5.05 5.05 0 0 0-1 .613 6.982 6.982 0 0 1-2.983 3.766 6.94 6.94 0 0 1 .817-10.839A6.908 6.908 0 0 1 22.708 14H10.5l-.217-.17a4 4 0 0 1-1.03-1.31L9.134 12.2a2 2 0 0 1-.13-.682V6a3.99 3.99 0 0 1 1.752-3.318l.248-.16V2h2v1a2 2 0 0 1 1.171.09l.225.12.076.046A2.013 2.013 0 0 1 16 5.121 2 2 0 0 1 17.171 3.21l.225-.121A1.98 1.98 0 0 1 18 3V2h2v1a2 2 0 0 1 1.171.09l.225.12.076.046A2.013 2.013 0 0 1 23 5.121 2 2 0 0 1 24.171 3.21l.225-.121A1.98 1.98 0 0 1 25 3V2h1zm-4.83 14a4.92 4.92 0 0 0-3.33 1.268 4.95 4.95 0 0 0-1.598 4.80 21.928 21.928 0 0 1-1.992-1.512 21.865 21.865 0 0 1-3.255-3.495l-.425-.562V16h10.6zM28 18v7.139a10.15 10.15 0 0 0 1-.594c.341-.236.658-.479.976-.725L30 24v-6h-2zm-9.207 5.293a5.01 5.01 0 0 0-1.932 2.941l-.78.312A4.977 4.977 0 0 0 16 28.978a4.977 4.977 0 0 0 1.76-1.236 4.99 4.99 0 0 0 1.137-1.983c-.039-.021-.079-.04-.117-.062a20.069 20.069 0 0 1-.6-.34l-.6-.374-.387.31zM7 14a2 2 0 0 0 1.55-.739 21.73 21.73 0 0 1 4.214 4.774 22.06 22.06 0 0 1 2.348 4.458c.106.283.204.563.296.841A4.998 4.998 0 0 0 11 27.959a5 5 0 0 0-4-4.9V14zm16-5h4.28l-1.143-4H23a2 2 0 0 1-1.995-1.85L21 3a1.99 1.99 0 0 1-.278.128l-.212.07-.124.035a3.986 3.986 0 0 0-2.616 3.11L17.721 7H8.558A2 2 0 0 0 9.003 8.17L9.064 8.298A2 2 0 0 0 11 9.998l.062-.001L11.098 10h11.485A3.417 3.417 0 0 1 23 9zm2 3v-1h-2v1h2z"/>
-        </svg>
-        <div class="feature-info">
-            <h3>Great for remote work</h3>
-            <p>Fast wifi at 85 Mbps, plus a dedicated workspace</p>
-        </div>
+        <h3 class="section-heading">What this place offers</h3>
+        <ul>
+            <li><img src="icon1.svg" class="feature-icon">Garden view</li>
+            <li><img src="icon2.svg" class="feature-icon">Kitchen</li>
+            <li><img src="icon3.svg" class="feature-icon">Fast wifi – 99 Mbps</li>
+            <li><img src="icon4.svg" class="feature-icon">Dedicated workspace</li>
+            <li><img src="icon5.svg" class="feature-icon">Free parking on premises – 1 space</li>
+            <li><img src="icon6.svg" class="feature-icon">Shared outdoor pool – available all year, open specific hours, rooftop</li>
+            <li><img src="icon7.svg" class="feature-icon">Pets allowed</li>
+            <li><img src="icon8.svg" class="feature-icon">43-inch HDTV with Amazon Prime Video, Disney+, Netflix, cable/satellite TV</li>
+            <li><img src="icon9.svg" class="feature-icon">Lift</li>
+            <li><img src="icon10.svg" class="feature-icon">Free washer – In unit</li>
+        </ul>
     </div>
-    
-<div class="description-section">
-    <h3 class="section-heading">Description</h3>
-    <p class="description-text">
-        Indulge in luxury at this stylish studio apartment located near the airport and CC2 Mall. Perfect for couples, families, and friends looking for a special getaway. With a high-speed internet of over 100 Mbps, this apartment is also ideal for those working from home. Enjoy access to the on-site pool and gym, and stay connected as the property is well situated near major attractions: 6 km from Kolkata International Airport, 1 km from City Centre II, and 2 km from Eco Park.
-    </p>
-</div>
 
-<div class="feature-section">
-    <h3 class="section-heading">What this place offers</h3>
-    <ul class="feature-list">
-        <li>Garden view</li>
-        <li>Kitchen</li>
-        <li>Fast wifi – 99 Mbps</li>
-        <li>Dedicated workspace</li>
-        <li>Free parking on premises – 1 space</li>
-        <li>Shared outdoor pool – available all year, open specific hours, rooftop</li>
-        <li>Pets allowed</li>
-        <li>43-inch HDTV with Amazon Prime Video, Disney+, Netflix, cable/satellite TV</li>
-        <li>Lift</li>
-        <li>Free washer – In unit</li>
-    </ul>
-</div>
-
-<div class="location-section">
-    <h3 class="section-heading">Where you’ll be</h3>
-    <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10085.587635092432!2d88.47061771683513!3d22.591395364693938!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027dd8a5d7e573%3A0x5cbbf7d3c8f181bb!2sSiddha%20SkyView%20Studio!5e0!3m2!1sen!2sin!4v1638889605148!5m2!1sen!2sin"
-        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-</div>
-
-<div class="host-section">
-    <h3 class="section-heading">About the Host</h3>
-    <div class="host-info">
-        <img src="Sona.jpeg" alt="Host" class="host-image">
-        <div class="host-details">
-            <div class="host-name">Sonal</div>
-            <div class="host-status">Superhost · 3 years hosting</div>
-            <div class="host-bio">
-                Hi, I'm Sonal! Professionally, I dive into the dynamic world of IT. I’m excited to be a host and provide guests with an amazing experience. Looking forward to hosting you!
-            </div>
-        </div>
+    <div class="description-section">
+        <h3 class="section-heading">Description</h3>
+        <p class="description-text">
+            Indulge in luxury at this stylish studio apartment located near the airport and CC2 Mall. Perfect for couples, families, and friends looking for a special getaway. With a high-speed internet of over 100 Mbps, this apartment is also ideal for those working from home. Enjoy access to the on-site pool and gym, and stay connected as the property is well situated near major attractions: 6 km from Kolkata International Airport, 1 km from City Centre II, and 2 km from Eco Park.
+        </p>
     </div>
-</div>
 
+    <div class="location-section">
+        <h3 class="section-heading">Where you’ll be</h3>
+        <iframe src="https://www.google.com/maps/embed?pb=..."></iframe>
+    </div>
+
+    <div class="booking-section">
+        <button class="booking-button">Book Now</button>
+    </div>
+
+</body>
+</html>
