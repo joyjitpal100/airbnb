@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siddha SkyView Studio, Pool Near Airport, CC2 Mall</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .back-button {
+            font-size: 24px;
+            text-decoration: none;
+            color: #333;
+            margin-right: 20px;
+        }
+        
+        .property-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 250px 120px;
+            gap: 4px;
+            padding: 2px;
+        }
+        
+        .main-image {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .side-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .property-info {
+            padding: 20px;
+            background-color: white;
+            margin-top: 2px;
+        }
+        
+        .property-header {
+            margin-bottom: 15px;
+        }
+        
+        .property-location {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .property-details {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .rating-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            background-color: white;
+        }
+        
+        .rating-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .rating-badge {
+            background-color: #f2f2f2;
+            border-radius: 20px;
+            padding: 8px 12px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        .rating-score {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .rating-count {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .host-section {
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .host-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .host-info {
+            flex: 1;
+        }
+        
+        .host-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .host-status {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .feature-section {
+            padding: 15px 20px;
+            background-color: white;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+        }
+        
+        .feature-info h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .feature-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .description-section {
+            padding: 15px 20px;
+            background-color: white;
+            margin-top: 10px;
+        }
+        
+        .description-text {
+            line-height: 1.5;
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .show-more {
+            color: #333;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+        }
+        
+        .sleep-section {
+            padding: 15px 20px;
+            background-color: white;
+            margin-top: 10px;
+        }
+        
+        .sleep-heading {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .bedroom-image {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .bedroom-info {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .bedroom-type {
+            font-weight: 500;
+        }
+        
+        .booking-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+        }
+        
+        .booking-button {
+            background-color: #e31c5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="javascript:history.back()" class="back-button">×</a>
+        <div class="property-title">Siddha SkyView Studio, Pool Near Airport, CC2 Mall</div>
+    </div>
+    
+    <div class="image-grid">
+        <img src="https://i.imgur.com/TYbwz0N.jpg" alt="Living Room" class="main-image">
+        <img src="https://i.imgur.com/mfGBw3v.jpg" alt="Bedroom" class="side-image">
+        <img src="https://i.imgur.com/bVIbPuX.jpg" alt="Pool" class="side-image">
+    </div>
+    
+    <div class="property-info">
+        <div class="property-header">
+            <h1 class="property-location">Entire apartment in Kolkata, India</h1>
+            <p class="property-details">2 guests · 1 bedroom · 2 beds · 1 bathroom</p>
+        </div>
+    </div>
+    
+    <div class="rating-section">
+        <div class="rating-left">
+            <div class="rating-badge">Guest favorite</div>
+            <div class="rating-text">One of the most loved homes on Airbnb, according to guests</div>
+        </div>
+        <div class="rating-right">
+            <span class="rating-score">4.86</span>
+            <span class="rating-count">(86 reviews)</span>
+        </div>
+    </div>
+    
+    <div class="host-section">
+        <img src="https://i.imgur.com/jJ4btHD.jpg" alt="Host" class="host-image">
+        <div class="host-info">
+            <div class="host-name">Hosted by Suma</div>
+            <div class="host-status">Superhost · 3 years hosting</div>
+        </div>
+    </div>
+    
+    <div class="feature-section">
+        <svg class="feature-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26 2a1 1 0 0 1 .922.612l.04.113 2 7a1 1 0 0 1-.847 1.269L28 11h-3v5h6v2h-2v13h-2l-.001-2.06a6.917 6.917 0 0 1-3.66 1.04 7.12 7.12 0 0 1-2.608-.503 6.984 6.984 0 0 1-6.393 4.243 6.897 6.897 0 0 1-4.587-1.724A6.997 6.997 0 0 1 3 25.978l-.176-.831L2.797 25h-1.82L1 28.002 1.001 31H19.5l.5-2h10.999l.5 2H31v-2.308a19.91 19.91 0 0 1-2-1.01l-.5-.302-.499.302c-1.092.66-2.082 1.082-2.97 1.269l-.332.06-.698.09V16h-2v5.387a5.05 5.05 0 0 0-1 .613 6.982 6.982 0 0 1-2.983 3.766 6.94 6.94 0 0 1 .817-10.839A6.908 6.908 0 0 1 22.708 14H10.5l-.217-.17a4 4 0 0 1-1.03-1.31L9.134 12.2a2 2 0 0 1-.13-.682V6a3.99 3.99 0 0 1 1.752-3.318l.248-.16V2h2v1a2 2 0 0 1 1.171.09l.225.12.076.046A2.013 2.013 0 0 1 16 5.121 2 2 0 0 1 17.171 3.21l.225-.121A1.98 1.98 0 0 1 18 3V2h2v1a2 2 0 0 1 1.171.09l.225.12.076.046A2.013 2.013 0 0 1 23 5.121 2 2 0 0 1 24.171 3.21l.225-.121A1.98 1.98 0 0 1 25 3V2h1zm-4.83 14a4.92 4.92 0 0 0-3.33 1.268 4.95 4.95 0 0 0-1.598 4.80 21.928 21.928 0 0 1-1.992-1.512 21.865 21.865 0 0 1-3.255-3.495l-.425-.562V16h10.6zM28 18v7.139a10.15 10.15 0 0 0 1-.594c.341-.236.658-.479.976-.725L30 24v-6h-2zm-9.207 5.293a5.01 5.01 0 0 0-1.932 2.941l-.78.312A4.977 4.977 0 0 0 16 28.978a4.977 4.977 0 0 0 1.76-1.236 4.99 4.99 0 0 0 1.137-1.983c-.039-.021-.079-.04-.117-.062a20.069 20.069 0 0 1-.6-.34l-.6-.374-.387.31zM7 14a2 2 0 0 0 1.55-.739 21.73 21.73 0 0 1 4.214 4.774 22.06 22.06 0 0 1 2.348 4.458c.106.283.204.563.296.841A4.998 4.998 0 0 0 11 27.959a5 5 0 0 0-4-4.9V14zm16-5h4.28l-1.143-4H23a2 2 0 0 1-1.995-1.85L21 3a1.99 1.99 0 0 1-.278.128l-.212.07-.124.035a3.986 3.986 0 0 0-2.616 3.11L17.721 7H8.558A2 2 0 0 0 9.003 8.17L9.064 8.298A2 2 0 0 0 11 9.998l.062-.001L11.098 10h11.485A3.417 3.417 0 0 1 23 9zm2 3v-1h-2v1h2z"/>
+        </svg>
+        <div class="feature-info">
+            <h3>Great for remote work</h3>
+            <p>Fast wifi at 85 Mbps, plus a dedicated workspace</p>
+        </div>
+    </div>
+    
+    <div class="
