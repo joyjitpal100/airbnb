@@ -135,6 +135,68 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
+        .features-section {
+            margin: 60px 0;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
+        
+        .features-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .feature {
+            padding: 20px;
+        }
+        
+        .feature h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .feature p {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .discover-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+            align-items: center;
+        }
+        
+        .discover-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .discover-content h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .discover-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
+        
         @media (max-width: 768px) {
             nav a {
                 margin: 0 10px;
@@ -152,6 +214,14 @@
             .property-item {
                 font-size: 16px;
             }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .discover-section {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -159,8 +229,6 @@
     <header>
         <nav>
             <a href="#" class="active">Home</a>
-            <a href="#">Properties</a>
-            <a href="#">Contact us</a>
         </nav>
     </header>
     
@@ -178,16 +246,64 @@
         <h2>All properties</h2>
         
         <div class="property-list">
-            <div class="property-item" style="cursor: pointer;">Siddha SkyView Studio, Pool Near Airport, CC2 Mall</div>
+            <div class="property-item" data-url="https://www.airbnb.com/h/xanadu604">Siddha SkyView Studio, Pool Near Airport, CC2 Mall</div>
+            <div class="property-item" data-url="https://www.airbnb.co.in/h/xanadu922">Xanadu 922 - Luxury Studio Apartment</div>
+            <div class="property-item" data-url="https://www.airbnb.co.in/h/xanadu313">Xanadu 313 - Elegant Studio with City Views</div>
+            <div class="property-item" data-url="https://www.airbnb.co.in/h/xanadu310">Xanadu 310 - Modern Studio Apartment</div>
+        </div>
+        
+        <div class="features-section">
+            <h2 class="features-title">Chic home rentals for you</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <h3>Fully-furnished residences</h3>
+                    <p>Pack your bags, move-in to our fully furnished serviced apartments and start living in your new home right away!</p>
+                </div>
+                <div class="feature">
+                    <h3>Cleaning and maintenance - on us!</h3>
+                    <p>Forget about the hassle of housework in your 1 BHK flat, while you take care of the more important things!</p>
+                </div>
+                <div class="feature">
+                    <h3>Easy on the pocket</h3>
+                    <p>Our serviced apartments are extremely pocket-friendly. Pay zero deposit and enjoy flexible stays.</p>
+                </div>
+                <div class="feature">
+                    <h3>24x7 assistance</h3>
+                    <p>Our on-site caretaker is always at the property to assist you, whenever you need.</p>
+                </div>
+                <div class="feature">
+                    <h3>Stylish homes</h3>
+                    <p>Our contemporary and chic homes are not only functional but also stylish. We've thoughtfully designed this home to make you feel at home!</p>
+                </div>
+                <div class="feature">
+                    <h3>No security deposit</h3>
+                    <p>Have a question or want to learn more about our services? Contact us on WhatsApp and we'll be happy to assist you right away.</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="features-title">Luxurious homes just for you</h2>
+        
+        <div class="discover-section">
+            <div class="discover-image">
+                <img src="https://i.imgur.com/HLdjROY.jpg" alt="Luxury Studio Apartment" class="discover-image">
+            </div>
+            <div class="discover-content">
+                <h3>Discover Stylish Homes for Short & Long-Term Stays</h3>
+                <p>Studio apartments offers modern, chic serviced apartment rentals across Kolkata, India - perfect for short and long-term stays. Experience the convenience and comfort of a home, away from home, in our aesthetically curated properties.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Simple JavaScript to handle property item clicks
+        // JavaScript to handle property item clicks
         document.querySelectorAll('.property-item').forEach(item => {
             item.addEventListener('click', () => {
                 // Open Airbnb URL when clicked
-                window.open('https://www.airbnb.com/h/xanadu604', '_blank');
+                const url = item.getAttribute('data-url');
+                if (url) {
+                    window.open(url, '_blank');
+                }
             });
         });
     </script>
