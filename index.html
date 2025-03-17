@@ -286,7 +286,7 @@
         
         <div class="discover-section">
             <div class="discover-image">
-                <img src="c8b3a273-ba9c-4f0b-a03f-1c2732f0f1bd.jpeg" alt="Luxury Studio Apartment" class="discover-image">
+                <img src="https://i.imgur.com/HLdjROY.jpg" alt="Luxury Studio Apartment" class="discover-image">
             </div>
             <div class="discover-content">
                 <h3>Discover Stylish Homes for Short & Long-Term Stays</h3>
@@ -299,10 +299,15 @@
         // JavaScript to handle property item clicks
         document.querySelectorAll('.property-item').forEach(item => {
             item.addEventListener('click', () => {
-                // Open Airbnb URL when clicked
                 const url = item.getAttribute('data-url');
                 if (url) {
-                    window.open(url, '_blank');
+                    // For the Siddha SkyView Studio, open a new page
+                    if (item.textContent.includes('Siddha SkyView Studio')) {
+                        window.location.href = 'siddha-skyview-details.html';
+                    } else {
+                        // For other properties, open Airbnb URL in new tab
+                        window.open(url, '_blank');
+                    }
                 }
             });
         });
