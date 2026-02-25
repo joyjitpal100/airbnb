@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Siddha SkyView Studio, Pool Near Airport, CC2 Mall</title>
     <style>
         * {
@@ -305,6 +305,8 @@
             right: 0;
             background-color: #fff;
             padding: 14px 20px;
+            /* push above iOS home indicator / browser toolbar */
+            padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
             box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
             display: flex;
             justify-content: center;
@@ -318,21 +320,25 @@
             color: #fff;
             border: none;
             border-radius: 8px;
-            padding: 14px 0;
+            padding: 16px 0;
             font-size: 17px;
             font-weight: 600;
             width: 100%;
             max-width: 500px;
             cursor: pointer;
-            transition: background-color 0.25s;
+            transition: background-color 0.2s, transform 0.1s;
             display: block;
             text-align: center;
             pointer-events: auto;
             touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        .booking-button:hover {
+        .booking-button:hover { background-color: #c4174a; }
+        .booking-button:active {
             background-color: #c4174a;
+            transform: scale(0.97);
         }
 
         /* ── Responsive ── */
@@ -595,7 +601,16 @@
     </div>
 
     <script>
-        document.getElementById('bookNowBtn').addEventListener('click', function () {
+        var btn = document.getElementById('bookNowBtn');
+
+        // touchend fires before the browser can intercept the tap (iOS Safari fix)
+        btn.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            window.location.href = 'payment.html';
+        });
+
+        // fallback for desktop / non-touch browsers
+        btn.addEventListener('click', function () {
             window.location.href = 'payment.html';
         });
     </script>
