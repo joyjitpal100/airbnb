@@ -308,7 +308,9 @@
             box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
             display: flex;
             justify-content: center;
-            z-index: 10;
+            z-index: 9999;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
         .booking-button {
@@ -323,9 +325,10 @@
             max-width: 500px;
             cursor: pointer;
             transition: background-color 0.25s;
-            text-decoration: none;
             display: block;
             text-align: center;
+            pointer-events: auto;
+            touch-action: manipulation;
         }
 
         .booking-button:hover {
@@ -588,8 +591,13 @@
 
     <!-- Fixed booking bar -->
     <div class="booking-bar">
-        <button class="booking-button" onclick="window.location.href='payment.html'">Book Now</button>
+        <button type="button" class="booking-button" id="bookNowBtn">Book Now</button>
     </div>
 
+    <script>
+        document.getElementById('bookNowBtn').addEventListener('click', function () {
+            window.location.href = 'payment.html';
+        });
+    </script>
 </body>
 </html>
