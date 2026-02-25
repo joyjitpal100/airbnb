@@ -16,15 +16,18 @@ This is a **static HTML/CSS property listing website** for **Xanadu**, a service
 airbnb/
 ├── index.html                    # Main landing page (property listing)
 ├── siddha-skyview-details.html   # Detail page for Siddha SkyView Studio
+├── payment.html                  # Payment/booking confirmation page (QR code)
+├── payment-qr.png                # UPI QR code image — ADD THIS FILE (not yet present)
 ├── README.md                     # Minimal project description
 ├── CLAUDE.md                     # This file
-└── Images/
-    ├── 604.jpg                   # Main image for Siddha SkyView (living room)
-    ├── 604-1.jpg                 # Secondary image (bedroom)
-    ├── 604-2.jpeg                # Third image (pool)
-    ├── Sona.jpeg                 # Host profile photo
-    └── c8b3a273-....jpeg         # Additional property image
+├── 604.jpg                       # Main image for Siddha SkyView (living room)
+├── 604-1.jpg                     # Secondary image (bedroom)
+├── 604-2.jpeg                    # Third image (pool)
+├── Sona.jpeg                     # Host profile photo (used as Joyjit's avatar)
+└── c8b3a273-....jpeg             # Additional property image
 ```
+
+> **Note:** Image files are stored in the repository root (same directory as HTML files), not in an `Images/` subdirectory. All `src` paths are relative with no folder prefix.
 
 ---
 
@@ -41,20 +44,32 @@ airbnb/
 
 ### `siddha-skyview-details.html` — Property Detail Page
 - Sticky navbar with back button (`javascript:history.back()`) + property title
-- Image gallery: CSS Grid with a main image spanning 2 rows and 2 side images
-- Property info card: location, capacity (4 guests, 1 bed, 2 beds, 1 bath)
-- Rating section: "Guest Favorite" badge, score 4.86, 86 reviews
-- Host section: Sona — Superhost, 3 years hosting
-- Features/amenities list (10 items with SVG icons)
+- Image gallery: CSS Grid — main image spans 2 rows (left col), 2 side images stack in right col
+- Property info card: location, capacity (5 guests, 1 bedroom, 2 beds, 1 bath)
+- Rating section: "Guest Favourite" gold badge, ★ 4.85, 139 reviews
+- Highlights: Dive right in (pool), Self check-in (lockbox), Extra spacious
+- Host section: Joyjit — Superhost, 4 years hosting
+- "Where you'll sleep" card: 1 king bed + 1 sofa bed
+- Amenities grid (10 items, all inline SVG icons — no external icon files)
 - Description text block
-- Google Maps embed (placeholder iframe)
-- Fixed bottom booking button (Airbnb pink `#e31c5f`)
+- Google Maps embed (query-based, no API key required) + "Open in Google Maps" link
+- Fixed bottom booking button → links to `payment.html`
+
+### `payment.html` — Booking / Payment Page
+- Sticky navbar with back button
+- Property summary card (thumbnail, name, rating pill)
+- 3-step booking flow: WhatsApp → Scan QR → Send screenshot
+- QR code section: displays `payment-qr.png` if present; falls back to a styled placeholder
+- WhatsApp CTA button (pre-filled message, opens `wa.me/918918585499`)
+- Long-stay discount note
 
 **Navigation flow:**
 ```
 index.html
   ├── Siddha SkyView Studio → siddha-skyview-details.html
-  │                                └── Back button → index.html
+  │                                ├── Back button → index.html
+  │                                └── Book Now → payment.html
+  │                                                  └── Back button → siddha-skyview-details.html
   ├── Xanadu 922 → airbnb.co.in/h/xanadu922 (new tab)
   ├── Xanadu 313 → airbnb.co.in/h/xanadu313 (new tab)
   └── Xanadu 310 → airbnb.co.in/h/xanadu310 (new tab)
@@ -144,12 +159,11 @@ npx serve .
 
 ## Known Issues / Improvement Areas
 
-| Issue | Location | Notes |
-|-------|----------|-------|
-| Missing SVG icon files (`icon1.svg`–`icon10.svg`) | `siddha-skyview-details.html:270-280` | Amenity icons won't display |
-| Empty Google Maps embed URL | `siddha-skyview-details.html:292` | Replace `pb=...` with actual embed URL |
-| Booking button has no action | `siddha-skyview-details.html:296` | Link to Airbnb or WhatsApp |
-| No `alt` text on `Sona.jpeg` host image | `siddha-skyview-details.html:260` | Accessibility gap |
-| Routing logic uses fragile `textContent` match | `index.html:305` | Brittle if property name changes |
-| No `<meta>` description or OG tags | Both pages | SEO/social sharing not optimised |
-| Inline CSS prevents caching | Both pages | Consider extracting to `styles.css` if site grows |
+| Issue | Location | Status | Notes |
+|-------|----------|--------|-------|
+| Missing `payment-qr.png` | `payment.html` | **Open** | Add your UPI QR code as `payment-qr.png` in repo root; page shows a styled placeholder until then |
+| Google Maps shows general area | `siddha-skyview-details.html` | Partial | Embed uses a name query; for a pin-accurate embed, replace the `<iframe src>` with a full `google.com/maps/embed?pb=…` URL |
+| Routing logic uses fragile `textContent` match | `index.html:305` | Open | Brittle if property name changes; consider switching to a `data-page` attribute |
+| No `<meta>` description or OG tags | All pages | Open | SEO/social sharing not optimised |
+| Inline CSS prevents caching | All pages | Open | Consider extracting to `styles.css` if site grows |
+| No booking amount shown on payment page | `payment.html` | Open | Currently directs guests to WhatsApp for pricing; add a price field if rates are fixed |

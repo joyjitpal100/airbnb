@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay — Siddha SkyView Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ee 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background-color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .back-button {
+            font-size: 22px;
+            color: #333;
+            margin-right: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .nav-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* ── Page wrapper ── */
+        .page {
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 20px 16px 40px;
+        }
+
+        /* ── Card ── */
+        .card {
+            background-color: #fff;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+        }
+
+        /* ── Property summary ── */
+        .property-thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .property-summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .property-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .property-meta {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .rating-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background-color: #fff5f8;
+            color: #e31c5f;
+            border: 1px solid #f5b8c8;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* ── Steps ── */
+        .steps-heading {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #333;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e31c5f;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .step-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* ── QR code section ── */
+        .qr-heading {
+            font-size: 17px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .qr-subtext {
+            font-size: 13px;
+            color: #777;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .qr-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Shown when payment-qr.png exists */
+        .qr-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 12px;
+            border: 4px solid #e31c5f;
+            object-fit: contain;
+            background: #fff;
+        }
+
+        /* Shown as fallback when payment-qr.png is missing */
+        .qr-placeholder {
+            width: 220px;
+            height: 220px;
+            border-radius: 12px;
+            border: 3px dashed #e31c5f;
+            background: #fff5f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            padding: 16px;
+        }
+
+        .qr-placeholder-icon {
+            font-size: 48px;
+        }
+
+        .qr-placeholder-text {
+            font-size: 13px;
+            color: #999;
+            line-height: 1.4;
+        }
+
+        .upi-note {
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+            background: #f7f7f7;
+            border-radius: 8px;
+            padding: 10px 14px;
+        }
+
+        .upi-note strong {
+            color: #333;
+        }
+
+        /* ── WhatsApp CTA ── */
+        .whatsapp-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #25d366;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.25s, transform 0.2s;
+            width: 100%;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #1ebe5d;
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        /* ── Info note ── */
+        .info-note {
+            background-color: #fffbea;
+            border-left: 4px solid #f0a500;
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-top: 14px;
+        }
+
+        .info-note strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="javascript:history.back()" class="back-button" aria-label="Go back">&#8592;</a>
+        <div class="nav-title">Book Your Stay</div>
+    </div>
+
+    <div class="page">
+
+        <!-- Property summary -->
+        <div class="card">
+            <div class="property-summary">
+                <img src="604.jpg" alt="Siddha SkyView Studio" class="property-thumb">
+                <div>
+                    <div class="property-name">Siddha SkyView Studio</div>
+                    <div class="property-meta">Pool Near Airport &middot; CC2 Mall, Kolkata</div>
+                    <div class="property-meta">5 guests &middot; 1 bedroom &middot; 2 beds</div>
+                    <div class="rating-pill">&#9733; 4.85 &nbsp;·&nbsp; 139 reviews</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to book steps -->
+        <div class="card">
+            <p class="steps-heading">How to confirm your booking</p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>
+                    <div class="step-title">Message us on WhatsApp</div>
+                    <div class="step-desc">Tell us your check-in date, check-out date, and number of guests so we can confirm availability and share the exact amount.</div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>
+                    <div class="step-title">Scan the QR &amp; pay</div>
+                    <div class="step-desc">Once the price is confirmed, scan the QR code below and complete the UPI payment.</div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>
+                    <div class="step-title">Send payment screenshot</div>
+                    <div class="step-desc">Share the payment confirmation screenshot on WhatsApp (+91 89185 85499) and you're all set!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code -->
+        <div class="card">
+            <p class="qr-heading">Scan to Pay</p>
+            <p class="qr-subtext">UPI &middot; GPay &middot; PhonePe &middot; Paytm &middot; Any UPI app</p>
+
+            <div class="qr-wrapper">
+                <!--
+                    ════════════════════════════════════════════
+                    INSTRUCTIONS FOR HOST:
+                    Save your UPI QR code image as 'payment-qr.png'
+                    in the same folder as this HTML file.
+                    The image will automatically appear here.
+                    ════════════════════════════════════════════
+                -->
+                <img
+                    src="payment-qr.png"
+                    alt="UPI Payment QR Code"
+                    class="qr-image"
+                    onerror="this.style.display='none'; document.getElementById('qr-placeholder').style.display='flex';">
+
+                <div id="qr-placeholder" class="qr-placeholder" style="display:none;">
+                    <div class="qr-placeholder-icon">&#9638;</div>
+                    <div class="qr-placeholder-text">
+                        QR code coming soon.<br>
+                        Please contact us on WhatsApp to pay.
+                    </div>
+                </div>
+            </div>
+
+            <div class="upi-note">
+                After payment, please <strong>send a screenshot</strong> on WhatsApp to confirm your booking.
+            </div>
+        </div>
+
+        <!-- WhatsApp CTA -->
+        <div class="card">
+            <a
+                href="https://wa.me/918918585499?text=Hi%2C%20I%20want%20to%20book%20Siddha%20SkyView%20Studio.%20Please%20share%20availability%20and%20pricing."
+                class="whatsapp-btn"
+                target="_blank"
+                rel="noopener noreferrer">
+                <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.172.198-.296.297-.495.1-.198.05-.372-.05-.521-.149-.148-.67-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Chat with us on WhatsApp
+            </a>
+
+            <div class="info-note">
+                &#128273; For discounts on <strong>long-term stays</strong> (7+ nights), please mention it in your WhatsApp message. Direct bookings get the best rates!
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Show the QR placeholder if the image fails to load on first render
+        window.addEventListener('DOMContentLoaded', function () {
+            var img = document.querySelector('.qr-image');
+            if (img && !img.complete) {
+                img.addEventListener('error', function () {
+                    img.style.display = 'none';
+                    document.getElementById('qr-placeholder').style.display = 'flex';
+                });
+            } else if (img && img.naturalWidth === 0) {
+                img.style.display = 'none';
+                document.getElementById('qr-placeholder').style.display = 'flex';
+            }
+        });
+    </script>
+
+</body>
+</html>
