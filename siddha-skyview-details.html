@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Siddha SkyView Studio, Pool Near Airport, CC2 Mall</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -167,8 +168,8 @@
         }
 
         .highlight-icon {
+            font-size: 30px;
             width: 32px;
-            height: 32px;
             flex-shrink: 0;
             color: #333;
         }
@@ -262,10 +263,10 @@
         }
 
         .amenity-icon {
+            font-size: 20px;
             width: 22px;
-            height: 22px;
             flex-shrink: 0;
-            color: #333;
+            color: #555;
         }
 
         /* ── Description ── */
@@ -397,34 +398,21 @@
     <div class="card">
         <ul class="highlights-list">
             <li class="highlight-item">
-                <!-- Pool / Dive right in -->
-                <svg class="highlight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 12c.5.5 1.5 1 2.5 1s2-.5 2.5-1 1.5-1 2.5-1 2 .5 2.5 1 1.5 1 2.5 1 2-.5 2.5-1 1.5-1 2.5-1"/>
-                    <path d="M2 16c.5.5 1.5 1 2.5 1s2-.5 2.5-1 1.5-1 2.5-1 2 .5 2.5 1 1.5 1 2.5 1 2-.5 2.5-1 1.5-1 2.5-1"/>
-                    <circle cx="12" cy="5" r="2"/>
-                    <path d="m9 8 3 4"/>
-                </svg>
+                <span class="material-icons highlight-icon">pool</span>
                 <div>
                     <div class="highlight-title">Dive right in</div>
                     <div class="highlight-desc">One of the few places in the area with a rooftop pool.</div>
                 </div>
             </li>
             <li class="highlight-item">
-                <!-- Self check-in -->
-                <svg class="highlight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
+                <span class="material-icons highlight-icon">lock</span>
                 <div>
                     <div class="highlight-title">Self check-in</div>
                     <div class="highlight-desc">Check yourself in with the lockbox — no waiting around.</div>
                 </div>
             </li>
             <li class="highlight-item">
-                <!-- Extra spacious -->
-                <svg class="highlight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                </svg>
+                <span class="material-icons highlight-icon">open_in_full</span>
                 <div>
                     <div class="highlight-title">Extra spacious</div>
                     <div class="highlight-desc">Guests love this home's spaciousness for a comfortable stay.</div>
@@ -461,101 +449,52 @@
         <div class="amenities-grid">
 
             <div class="amenity-item">
-                <!-- Garden view -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
-                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-                </svg>
+                <span class="material-icons amenity-icon">park</span>
                 Garden view
             </div>
 
             <div class="amenity-item">
-                <!-- Kitchen -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
-                    <path d="M7 2v20"/>
-                    <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h1m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-5h3z"/>
-                </svg>
+                <span class="material-icons amenity-icon">kitchen</span>
                 Kitchen
             </div>
 
             <div class="amenity-item">
-                <!-- Wifi -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
-                    <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
-                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
-                    <circle cx="12" cy="20" r="1" fill="currentColor"/>
-                </svg>
+                <span class="material-icons amenity-icon">wifi</span>
                 Fast wifi – 99 Mbps
             </div>
 
             <div class="amenity-item">
-                <!-- Workspace -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                    <line x1="8" y1="21" x2="16" y2="21"/>
-                    <line x1="12" y1="17" x2="12" y2="21"/>
-                </svg>
+                <span class="material-icons amenity-icon">laptop_mac</span>
                 Dedicated workspace
             </div>
 
             <div class="amenity-item">
-                <!-- Parking -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>
-                </svg>
+                <span class="material-icons amenity-icon">local_parking</span>
                 Free parking – 1 space
             </div>
 
             <div class="amenity-item">
-                <!-- Pool -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 12c.5.5 1.5 1 2.5 1s2-.5 2.5-1 1.5-1 2.5-1 2 .5 2.5 1 1.5 1 2.5 1 2-.5 2.5-1 1.5-1 2.5-1"/>
-                    <path d="M2 16c.5.5 1.5 1 2.5 1s2-.5 2.5-1 1.5-1 2.5-1 2 .5 2.5 1 1.5 1 2.5 1 2-.5 2.5-1 1.5-1 2.5-1"/>
-                    <path d="M2 8c.5.5 1.5 1 2.5 1s2-.5 2.5-1 1.5-1 2.5-1 2 .5 2.5 1 1.5 1 2.5 1 2-.5 2.5-1 1.5-1 2.5-1"/>
-                </svg>
+                <span class="material-icons amenity-icon">pool</span>
                 Rooftop pool – all year
             </div>
 
             <div class="amenity-item">
-                <!-- Pets -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="4" r="2"/>
-                    <circle cx="18" cy="8" r="2"/>
-                    <circle cx="20" cy="16" r="2"/>
-                    <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>
-                </svg>
+                <span class="material-icons amenity-icon">pets</span>
                 Pets allowed
             </div>
 
             <div class="amenity-item">
-                <!-- TV -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
-                    <polyline points="17 2 12 7 7 2"/>
-                </svg>
+                <span class="material-icons amenity-icon">tv</span>
                 43" HDTV + Netflix
             </div>
 
             <div class="amenity-item">
-                <!-- Lift -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-                    <path d="M9 10l3-3 3 3"/>
-                    <path d="M9 14l3 3 3-3"/>
-                </svg>
+                <span class="material-icons amenity-icon">elevator</span>
                 Lift / Elevator
             </div>
 
             <div class="amenity-item">
-                <!-- Washer -->
-                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
-                    <circle cx="12" cy="13" r="4"/>
-                    <path d="M7 6h.01M11 6h2"/>
-                </svg>
+                <span class="material-icons amenity-icon">local_laundry_service</span>
                 Free washer – in unit
             </div>
 
