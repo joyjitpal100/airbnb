@@ -168,7 +168,6 @@
             margin-bottom: 20px;
         }
 
-        /* Shown when payment-qr.png exists */
         .qr-image {
             width: 220px;
             height: 220px;
@@ -176,32 +175,37 @@
             border: 4px solid #e31c5f;
             object-fit: contain;
             background: #fff;
+            display: block;
         }
 
-        /* Shown as fallback when payment-qr.png is missing */
-        .qr-placeholder {
-            width: 220px;
-            height: 220px;
-            border-radius: 12px;
-            border: 3px dashed #e31c5f;
-            background: #fff5f8;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .upi-id-block {
             text-align: center;
-            padding: 16px;
+            margin: 16px 0 12px;
         }
 
-        .qr-placeholder-icon {
-            font-size: 48px;
-        }
-
-        .qr-placeholder-text {
-            font-size: 13px;
+        .upi-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             color: #999;
-            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .upi-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            background: #f4f4f4;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+        }
+
+        .upi-name {
+            font-size: 13px;
+            color: #777;
         }
 
         .upi-note {
@@ -317,30 +321,20 @@
         <!-- QR Code -->
         <div class="card">
             <p class="qr-heading">Scan to Pay</p>
-            <p class="qr-subtext">UPI &middot; GPay &middot; PhonePe &middot; Paytm &middot; Any UPI app</p>
+            <p class="qr-subtext">GPay &middot; PhonePe &middot; Paytm &middot; Any UPI app</p>
 
             <div class="qr-wrapper">
-                <!--
-                    ════════════════════════════════════════════
-                    INSTRUCTIONS FOR HOST:
-                    Save your UPI QR code image as 'payment-qr.png'
-                    in the same folder as this HTML file.
-                    The image will automatically appear here.
-                    ════════════════════════════════════════════
-                -->
+                <!-- QR code generated from UPI ID — works without any image file -->
                 <img
-                    src="payment-qr.png"
-                    alt="UPI Payment QR Code"
-                    class="qr-image"
-                    onerror="this.style.display='none'; document.getElementById('qr-placeholder').style.display='flex';">
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3D8918585499%40okbizaxis%26pn%3DDreamer%27s%20Abode&bgcolor=ffffff&color=000000&qzone=2&margin=0"
+                    alt="UPI Payment QR Code — scan with any UPI app"
+                    class="qr-image">
+            </div>
 
-                <div id="qr-placeholder" class="qr-placeholder" style="display:none;">
-                    <div class="qr-placeholder-icon">&#9638;</div>
-                    <div class="qr-placeholder-text">
-                        QR code coming soon.<br>
-                        Please contact us on WhatsApp to pay.
-                    </div>
-                </div>
+            <div class="upi-id-block">
+                <div class="upi-label">UPI ID</div>
+                <div class="upi-value">8918585499@okbizaxis</div>
+                <div class="upi-name">Dreamer's Abode</div>
             </div>
 
             <div class="upi-note">
@@ -368,21 +362,6 @@
 
     </div>
 
-    <script>
-        // Show the QR placeholder if the image fails to load on first render
-        window.addEventListener('DOMContentLoaded', function () {
-            var img = document.querySelector('.qr-image');
-            if (img && !img.complete) {
-                img.addEventListener('error', function () {
-                    img.style.display = 'none';
-                    document.getElementById('qr-placeholder').style.display = 'flex';
-                });
-            } else if (img && img.naturalWidth === 0) {
-                img.style.display = 'none';
-                document.getElementById('qr-placeholder').style.display = 'flex';
-            }
-        });
-    </script>
 
 </body>
 </html>
