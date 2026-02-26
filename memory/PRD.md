@@ -1,63 +1,85 @@
 # Airbnb Property Listing Site - PRD
 
 ## Original Problem Statement
-Fix Airbnb property listing site with the following requirements:
-1. Fix all UI issues (alignment, responsiveness, broken styles, console errors)
-2. Enable the "Book Now" button
-3. On click, show modal with booking summary and QR image for payment
-4. Add "I Have Paid" confirmation button
-5. Show booking success message after confirmation
-6. Keep implementation simple (no heavy backend)
-7. Create new branch and open PR with changes
+Build enhanced Airbnb property listing with:
+1. Booking inputs (calendar, guest selector, dynamic pricing)
+2. Two views (Traveller/Host) with toggle
+3. Aadhaar upload with 7-year retention
+4. FastAPI + MongoDB backend
+5. Clean, responsive UI
 
 ## User Personas
-- **Guests**: Looking to book property stays in Kolkata
-- **Property Owner (Sona)**: Manages listings and receives bookings
+- **Travellers**: Book property stays, upload Aadhaar for verification
+- **Host (Admin)**: View all bookings, access guest Aadhaar documents
 
 ## Core Requirements
-- Static HTML/CSS site with no build system
-- Mobile responsive design
-- UPI payment via QR code
-- Simple booking confirmation flow
+- Calendar date picker (check-in/check-out)
+- Guest selector (1-4 max)
+- Dynamic pricing: ₹2,500 base + ₹500 per extra guest (>2)
+- Traveller/Host view toggle
+- Aadhaar upload (JPG, PNG, PDF, max 5MB)
+- 7-year document retention
+- MongoDB storage for bookings
+- File storage for Aadhaar documents
 
-## What's Been Implemented (Jan 2026)
-- [x] Fixed missing SVG icons - replaced with inline SVGs
-- [x] Fixed host section layout alignment
-- [x] Added proper Google Maps embed URL
-- [x] Fixed image grid layout and responsiveness
-- [x] Added price display in booking section
-- [x] Implemented booking modal with:
-  - Booking summary (property, location, guests, price)
-  - QR code for UPI payment
-  - "I Have Paid" confirmation button
-- [x] Implemented success modal with confirmation message
-- [x] Added data-testid attributes for testing
-- [x] Fixed mobile responsiveness (768px breakpoint)
-- [x] Created feature/booking-modal branch
+## What's Been Implemented (Feb 2026)
+
+### Phase 1 (Initial)
+- [x] Fixed UI issues (missing icons, layout)
+- [x] Booking modal with QR payment
+- [x] Success confirmation flow
+
+### Phase 2 (Current)
+- [x] FastAPI backend with MongoDB
+- [x] Booking form with dates, guests, name, phone
+- [x] Dynamic price calculation
+- [x] Aadhaar file upload with validation
+- [x] Traveller/Host view toggle
+- [x] Host dashboard with booking list
+- [x] Aadhaar viewing in Host view
+- [x] 7-year retention metadata
+- [x] Mobile responsive design
+- [x] Created feature/calendar-host-traveller-aadhaar branch
 
 ## Tech Stack
-- Vanilla HTML5, CSS3
-- Minimal vanilla JavaScript
-- No frameworks or build tools
-- Static file serving
+- Frontend: Vanilla HTML5, CSS3, JavaScript
+- Backend: FastAPI (Python)
+- Database: MongoDB
+- File Storage: Local filesystem (/app/uploads)
 
-## Files Modified
-- `/app/siddha-skyview-details.html` - Complete rewrite with fixes
-- `/app/payment-qr.png` - Added QR code image
+## API Endpoints
+- `GET /api/health` - Health check
+- `POST /api/bookings` - Create booking (multipart form)
+- `GET /api/bookings` - List all bookings
+- `GET /api/bookings/{id}` - Get single booking
+- `GET /api/aadhaar/{filename}` - Download Aadhaar file
+- `DELETE /api/bookings/{id}` - Delete booking
+
+## Pricing Logic
+- Base price: ₹2,500/night
+- Extra guest charge: ₹500/night (for guests > 2)
+- Max guests: 4
+- Example: 3 guests, 2 nights = (₹2,500 × 2) + (₹500 × 1 × 2) = ₹6,000
 
 ## Test Results
-- All 16 tests passed (100% success)
-- Mobile responsiveness verified at 375px width
-- No console errors detected
+- Backend: 100% (7/7 tests passed)
+- Frontend: 95% (all features working)
+
+## Files Modified
+- `/app/siddha-skyview-details.html` - Complete booking system
+- `/app/backend/server.py` - FastAPI backend
+- `/app/backend/requirements.txt` - Python dependencies
+- `/app/backend/.env` - Environment variables
 
 ## Next Action Items
-1. Push changes to GitHub using "Save to Github" feature
-2. Create PR from feature/booking-modal branch
-3. Get PR reviewed and merged
+1. Push to GitHub (feature/calendar-host-traveller-aadhaar branch)
+2. Create PR and get reviewed
+3. Share preview link
 
 ## Future/Backlog (P2)
-- Add date picker for booking dates
-- Add guest count selector
-- Email/WhatsApp notification on booking
-- Multiple property detail pages
-- Payment confirmation via backend webhook
+- Authentication for Host view
+- Email/SMS notifications
+- Payment gateway integration
+- Booking modification/cancellation
+- Multiple property support
+- Calendar availability blocking
