@@ -16,6 +16,7 @@
             background-color: #f4f4f4;
             color: #333;
             line-height: 1.6;
+            padding-bottom: 100px;
         }
 
         .navbar {
@@ -34,24 +35,38 @@
             color: #333;
             margin-right: 20px;
             cursor: pointer;
+            text-decoration: none;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #f0f0f0;
         }
 
         .property-title {
             font-size: 18px;
             font-weight: 600;
             color: #333;
+            flex: 1;
         }
 
         .image-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            grid-template-rows: 280px 140px;
+            grid-template-rows: 200px 200px;
             gap: 8px;
             padding: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .main-image {
-            grid-column: 1 / span 2;
             grid-row: 1 / span 2;
             width: 100%;
             height: 100%;
@@ -64,6 +79,12 @@
             height: 100%;
             object-fit: cover;
             border-radius: 10px;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 12px;
         }
 
         .property-info {
@@ -82,15 +103,102 @@
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 5px;
-            color: #444;
+            color: #333;
         }
 
         .property-details {
             font-size: 14px;
-            color: #777;
+            color: #666;
         }
 
-        .rating-section, .host-section, .feature-section, .description-section, .location-section {
+        .rating-section {
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .rating-left {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .rating-badge {
+            background-color: #fff0f5;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #e31c5f;
+            font-weight: 600;
+        }
+
+        .rating-text {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .rating-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rating-score {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .host-section {
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .host-image {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .host-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .host-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .host-status {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .feature-section {
             padding: 20px;
             background-color: #fff;
             margin-top: 15px;
@@ -98,86 +206,56 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .rating-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #f2f2f2;
-        }
-
-        .rating-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .rating-badge {
-            background-color: #f1f1f1;
-            border-radius: 20px;
-            padding: 8px 12px;
-            font-size: 14px;
-            color: #e31c5f;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .rating-score {
+        .section-heading {
             font-size: 18px;
-            font-weight: bold;
-            color: #e31c5f;
-        }
-
-        .rating-count {
-            color: #777;
-            font-size: 14px;
-        }
-
-        .host-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .host-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .host-name {
-            font-weight: 500;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-
-        .host-status {
-            font-size: 14px;
-            color: #777;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
         }
 
         .feature-section ul {
             list-style: none;
-            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
 
         .feature-section li {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
             font-size: 14px;
-            color: #666;
+            color: #333;
         }
 
         .feature-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            color: #333;
+        }
+
+        .description-section {
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
         .description-text {
             font-size: 15px;
             color: #444;
             line-height: 1.7;
-            margin-bottom: 15px;
+        }
+
+        .location-section {
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
         }
 
         .location-section iframe {
@@ -185,6 +263,7 @@
             height: 300px;
             border: none;
             border-radius: 10px;
+            margin-top: 10px;
         }
 
         .booking-section {
@@ -193,11 +272,28 @@
             left: 0;
             right: 0;
             background-color: #fff;
-            padding: 20px;
+            padding: 16px 20px;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: center;
-            z-index: 10;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .price-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .price-night {
+            font-size: 14px;
+            color: #666;
         }
 
         .booking-button {
@@ -205,96 +301,508 @@
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-size: 16px;
-            font-weight: 500;
-            width: 100%;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
         }
 
         .booking-button:hover {
             background-color: #c4174a;
+            transform: translateY(-1px);
         }
 
-        .show-more {
-            color: #e31c5f;
-            font-weight: 500;
-            text-decoration: none;
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #e0e0e0;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .booking-summary {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .summary-item:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item.total {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            border-top: 2px solid #ddd;
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .qr-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .qr-image {
+            max-width: 280px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 12px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .confirm-button {
+            width: 100%;
+            background-color: #00a699;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .confirm-button:hover {
+            background-color: #008f82;
+        }
+
+        /* Success Modal */
+        .success-content {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #00a699;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .success-message {
             font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .success-button {
+            background-color: #e31c5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .success-button:hover {
+            background-color: #c4174a;
+        }
+
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: 250px 120px 120px;
+            }
+
+            .main-image {
+                grid-row: 1;
+            }
+
+            .property-title {
+                font-size: 16px;
+            }
+
+            .rating-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .feature-section ul {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-section {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 16px;
+            }
+
+            .booking-button {
+                width: 100%;
+            }
+
+            .price-info {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <a href="javascript:history.back()" class="back-button">×</a>
-        <div class="property-title">Siddha SkyView Studio, Pool Near Airport, CC2 Mall</div>
+        <a href="index.html" class="back-button" data-testid="back-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+        <div class="property-title">Siddha SkyView Studio</div>
     </div>
 
     <div class="image-grid">
-        <img src="604.jpg" alt="Living Room" class="main-image">
+        <img src="604.jpg" alt="Living Room - Siddha SkyView Studio" class="main-image">
         <img src="604-1.jpg" alt="Bedroom" class="side-image">
-        <img src="604-2.jpeg" alt="Pool" class="side-image">
+        <img src="604-2.jpeg" alt="Pool Area" class="side-image">
     </div>
 
-    <div class="property-info">
-        <div class="property-header">
-            <h1 class="property-location">Entire apartment in Kolkata, India</h1>
-            <p class="property-details">4 guests · 1 bedroom · 2 beds · 1 bathroom</p>
+    <div class="content-wrapper">
+        <div class="property-info">
+            <div class="property-header">
+                <h1 class="property-location">Entire apartment in Kolkata, India</h1>
+                <p class="property-details">4 guests · 1 bedroom · 2 beds · 1 bathroom</p>
+            </div>
         </div>
-    </div>
 
-    <div class="rating-section">
-        <div class="rating-left">
-            <div class="rating-badge">Guest Favorite</div>
-            <div class="rating-text">One of the most loved homes, according to guests</div>
+        <div class="rating-section">
+            <div class="rating-left">
+                <div class="rating-badge">Guest Favorite</div>
+                <span class="rating-text">One of the most loved homes on Airbnb</span>
+            </div>
+            <div class="rating-right">
+                <span class="rating-score">4.86</span>
+                <span class="rating-count">(86 reviews)</span>
+            </div>
         </div>
-        <div class="rating-right">
-            <span class="rating-score">4.86</span>
-            <span class="rating-count">(86 reviews)</span>
+
+        <div class="host-section">
+            <img src="Sona.jpeg" alt="Host Sona" class="host-image">
+            <div class="host-info">
+                <div class="host-name">Hosted by Sona</div>
+                <div class="host-status">Superhost · 3 years hosting</div>
+            </div>
         </div>
-    </div>
 
-    <div class="host-section">
-        <img src="Sona.jpeg" alt="Host" class="host-image">
-        <div class="host-info">
-            <div class="host-name">Hosted by Sona</div>
-            <div class="host-status">Superhost · 3 years hosting</div>
+        <div class="feature-section">
+            <h3 class="section-heading">What this place offers</h3>
+            <ul>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"/>
+                        <path d="M12 8v8M8 12h8"/>
+                    </svg>
+                    Garden view
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="11" width="18" height="10" rx="1"/>
+                        <path d="M12 11V6a3 3 0 0 0-3-3H6"/>
+                    </svg>
+                    Kitchen
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/>
+                    </svg>
+                    Fast wifi – 99 Mbps
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="4" width="18" height="12" rx="2"/>
+                        <path d="M7 20h10M12 16v4"/>
+                    </svg>
+                    Dedicated workspace
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="11" width="18" height="10" rx="1"/>
+                        <circle cx="7" cy="17" r="2"/>
+                        <circle cx="17" cy="17" r="2"/>
+                        <path d="M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/>
+                    </svg>
+                    Free parking – 1 space
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M2 12h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H2V12z"/>
+                        <path d="M22 12h-2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2V12z"/>
+                        <path d="M4 12V8a8 8 0 0 1 16 0v4"/>
+                    </svg>
+                    Rooftop pool
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="10" r="3"/>
+                        <path d="M12 2a8 8 0 0 0-8 8c0 3.5 2 6.5 8 12 6-5.5 8-8.5 8-12a8 8 0 0 0-8-8z"/>
+                    </svg>
+                    Pets allowed
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="7" width="20" height="14" rx="2"/>
+                        <path d="M17 2l-5 5-5-5"/>
+                    </svg>
+                    43" HDTV with Netflix
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M3 9h18M9 3v18"/>
+                    </svg>
+                    Lift access
+                </li>
+                <li>
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    Free washer
+                </li>
+            </ul>
         </div>
-    </div>
 
-    <div class="feature-section">
-        <h3 class="section-heading">What this place offers</h3>
-        <ul>
-            <li><img src="icon1.svg" class="feature-icon">Garden view</li>
-            <li><img src="icon2.svg" class="feature-icon">Kitchen</li>
-            <li><img src="icon3.svg" class="feature-icon">Fast wifi – 99 Mbps</li>
-            <li><img src="icon4.svg" class="feature-icon">Dedicated workspace</li>
-            <li><img src="icon5.svg" class="feature-icon">Free parking on premises – 1 space</li>
-            <li><img src="icon6.svg" class="feature-icon">Shared outdoor pool – available all year, open specific hours, rooftop</li>
-            <li><img src="icon7.svg" class="feature-icon">Pets allowed</li>
-            <li><img src="icon8.svg" class="feature-icon">43-inch HDTV with Amazon Prime Video, Disney+, Netflix, cable/satellite TV</li>
-            <li><img src="icon9.svg" class="feature-icon">Lift</li>
-            <li><img src="icon10.svg" class="feature-icon">Free washer – In unit</li>
-        </ul>
-    </div>
+        <div class="description-section">
+            <h3 class="section-heading">About this place</h3>
+            <p class="description-text">
+                Indulge in luxury at this stylish studio apartment located near the airport and CC2 Mall. Perfect for couples, families, and friends looking for a special getaway. With high-speed internet of over 100 Mbps, this apartment is ideal for those working from home. Enjoy access to the on-site pool and gym. Well situated near major attractions: 6 km from Kolkata International Airport, 1 km from City Centre II, and 2 km from Eco Park.
+            </p>
+        </div>
 
-    <div class="description-section">
-        <h3 class="section-heading">Description</h3>
-        <p class="description-text">
-            Indulge in luxury at this stylish studio apartment located near the airport and CC2 Mall. Perfect for couples, families, and friends looking for a special getaway. With a high-speed internet of over 100 Mbps, this apartment is also ideal for those working from home. Enjoy access to the on-site pool and gym, and stay connected as the property is well situated near major attractions: 6 km from Kolkata International Airport, 1 km from City Centre II, and 2 km from Eco Park.
-        </p>
-    </div>
-
-    <div class="location-section">
-        <h3 class="section-heading">Where you’ll be</h3>
-        <iframe src="https://www.google.com/maps/embed?pb=..."></iframe>
+        <div class="location-section">
+            <h3 class="section-heading">Where you'll be</h3>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.0954854582893!2d88.4456631!3d22.5854841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02750e0a9a0943%3A0x6b9f80e9b40bf0f5!2sSiddha%20Sky!5e0!3m2!1sen!2sin!4v1704067200000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
 
     <div class="booking-section">
-        <button class="booking-button">Book Now</button>
+        <div class="price-info">
+            <span class="price">₹2,500</span>
+            <span class="price-night">per night</span>
+        </div>
+        <button class="booking-button" data-testid="book-now-btn" onclick="openBookingModal()">Book Now</button>
     </div>
 
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="bookingModal" data-testid="booking-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Complete Your Booking</h2>
+                <button class="modal-close" data-testid="modal-close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="booking-summary">
+                    <div class="summary-item">
+                        <span>Property</span>
+                        <span>Siddha SkyView Studio</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Location</span>
+                        <span>Kolkata, India</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Guests</span>
+                        <span>Up to 4 guests</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Price per night</span>
+                        <span>₹2,500</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total (1 night)</span>
+                        <span>₹2,500</span>
+                    </div>
+                </div>
+                <div class="qr-section">
+                    <h3 class="qr-title">Scan to Pay</h3>
+                    <img src="payment-qr.png" alt="Payment QR Code" class="qr-image" data-testid="payment-qr">
+                    <p class="qr-note">Scan with Google Pay, Paytm, PhonePe or any UPI app</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-button" data-testid="confirm-payment-btn" onclick="confirmPayment()">I Have Paid</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal" data-testid="success-modal">
+        <div class="modal">
+            <div class="success-content">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                </div>
+                <h2 class="success-title">Booking Confirmed!</h2>
+                <p class="success-message">
+                    Thank you for your payment. Your booking for Siddha SkyView Studio has been confirmed. 
+                    We'll send you the details on WhatsApp shortly.
+                </p>
+                <button class="success-button" data-testid="success-close-btn" onclick="closeSuccessModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function confirmPayment() {
+            closeModal();
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
 </body>
 </html>
