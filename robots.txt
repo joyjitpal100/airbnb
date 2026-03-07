@@ -1,0 +1,18 @@
+# Robots.txt for XanaduStays
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://xanadustays.com/sitemap.xml
+
+# Allow all crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Disallow admin/test files
+Disallow: /test_reports/
+Disallow: /memory/
+Disallow: /backend/
