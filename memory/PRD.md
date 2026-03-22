@@ -1,97 +1,95 @@
 # Xanadu Stays - Property Listing Site PRD
 
 ## Original Problem Statement
-Complete property listing site with:
-1. Booking system (calendar, guest selector, dynamic pricing, Aadhaar upload)
-2. Two views (Traveller/Host)
-3. Conversion-optimized homepage
-4. SEO optimization (JSON-LD, meta tags, sitemap)
-5. Lead capture infrastructure (popups, multi-channel CTAs)
-6. Analytics integration (GA4, Meta Pixel placeholders)
+Complete property listing site with booking system, SEO optimization, lead capture, and now **Guest ID Vault** for compliance.
 
-## User Personas
-- **Travellers**: Book serviced apartments, discover via search
-- **Host (Sona)**: Manage bookings, track leads
+## Latest Feature: Guest ID Vault
 
-## What's Been Implemented (Feb 2026)
+### Purpose
+Store and track guest identity documents with 7-year retention for compliance.
 
-### Phase 1 - Initial Setup
-- [x] Basic booking modal with QR payment
+### Files Created/Modified
+| File | Action | Description |
+|------|--------|-------------|
+| `/app/guest-id-vault.html` | Created | Admin dashboard for Guest ID Vault |
+| `/app/backend/server.py` | Modified | Added Supabase endpoints for vault CRUD |
+| `/app/backend/.env` | Modified | Added Supabase config variables |
+| `/app/backend/requirements.txt` | Modified | Added supabase, python-dateutil |
+| `/app/supabase-setup.sql` | Created | Database schema for Supabase |
 
-### Phase 2 - Booking System
-- [x] FastAPI + MongoDB backend
-- [x] Dynamic pricing (₹2,500 + ₹500/extra guest)
-- [x] Aadhaar upload with 7-year retention
-- [x] Traveller/Host view toggle
+### Features Implemented
+- [x] Add guest records (name, phone, booking source, property, dates, notes)
+- [x] Upload ID documents (Aadhaar, Passport, DL) to Supabase Storage
+- [x] Search by name or phone
+- [x] Filter by property, booking source, status
+- [x] 7-year retention calculation (from check_out_date or uploaded_at)
+- [x] View guest details with document download
+- [x] Soft delete (mark as deleted)
+- [x] Permanent delete (only for soft-deleted records)
+- [x] Retention Review dashboard (expiring, eligible, deleted)
+- [x] File validation (PDF, JPG, PNG, max 5MB)
+- [x] Mobile-responsive UI
 
-### Phase 3 - Homepage Redesign
-- [x] Hero carousel with brand headline
-- [x] Trust signals & reviews section
-- [x] Property cards with pricing
-- [x] About Host section
+### Supabase Setup Required
+1. Run `/app/supabase-setup.sql` in Supabase SQL Editor
+2. Create storage bucket `guest-id-documents` (private)
+3. Add to `/app/backend/.env`:
+   ```
+   SUPABASE_URL=https://smceyhikbpawrdkmqemf.supabase.co
+   SUPABASE_ANON_KEY=your_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+   ```
+4. Restart backend: `sudo supervisorctl restart backend`
 
-### Phase 4 - SEO & Lead Capture (Current)
-#### SEO Optimization
-- [x] JSON-LD structured data (LodgingBusiness, Apartment)
-- [x] Individual property pages with unique URLs:
-  - /siddha-skyview-details.html
-  - /xanadu-922.html
-  - /xanadu-313.html
-  - /xanadu-310.html
-- [x] SEO-optimized titles with keywords
-- [x] Descriptive alt text on all 11 images
-- [x] Meta tags (og:title, og:description, canonical)
-- [x] sitemap.xml with 5 pages
-- [x] robots.txt allowing full crawling
-- [x] Long-tail keywords targeted:
-  - "furnished apartment near Kolkata airport"
-  - "studio for rent New Town Kolkata"
-  - "serviced apartment CC2 mall"
+### API Endpoints
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/vault/status` | GET | Check if Supabase configured |
+| `/api/vault/guests` | POST | Create guest record |
+| `/api/vault/guests` | GET | List with search/filter |
+| `/api/vault/guests/{id}` | GET | Get single record |
+| `/api/vault/guests/{id}/document-url` | GET | Signed URL for document |
+| `/api/vault/guests/{id}/soft-delete` | PATCH | Mark as deleted |
+| `/api/vault/guests/{id}/permanent` | DELETE | Permanent delete |
+| `/api/vault/retention-review` | GET | Retention dashboard data |
+| `/api/vault/properties` | GET | Unique properties for filter |
 
-#### Lead Capture Infrastructure
-- [x] Email capture popup (10% off first stay)
-- [x] Exit-intent popup (phone capture → WhatsApp)
-- [x] Multi-channel CTAs:
-  - WhatsApp (+91 89185 85499)
-  - Phone (tel: link)
-  - Email (joyjitpal@gmail.com)
-  - Instagram (@xanadustays)
-- [x] UTM tracking on all WhatsApp links
-- [x] Google Analytics 4 placeholder
-- [x] Meta Pixel placeholder
+### Auth Note
+Currently no authentication. The code is ready for protection:
+- Add auth middleware to `/api/vault/*` routes
+- Enable RLS in Supabase (schema includes commented policies)
+- Restrict access to `guest-id-vault.html` via server config
+
+### Configuration
+```python
+RETENTION_YEARS = 7  # Change in server.py if needed
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
+STORAGE_BUCKET = "guest-id-documents"
+```
+
+---
+
+## Previous Implementations
+
+### Phase 1-4 Summary
+- Booking system with calendar, guest selector, dynamic pricing
+- Aadhaar upload with 7-year retention (MongoDB)
+- Traveller/Host view toggle
+- Homepage redesign with trust signals
+- SEO optimization (JSON-LD, sitemap, meta tags)
+- Lead capture popups, multi-channel CTAs
+- Analytics placeholders (GA4, Meta Pixel)
 
 ## Tech Stack
-- Frontend: Vanilla HTML5, CSS3, JavaScript
-- Backend: FastAPI + MongoDB
-- Fonts: Plus Jakarta Sans
-- Analytics: GA4, Meta Pixel (placeholders)
+- Frontend: Vanilla HTML, CSS, JavaScript
+- Backend: FastAPI + MongoDB + Supabase
+- Storage: Supabase Storage (Guest ID Vault)
+- Database: MongoDB (bookings) + Supabase (guest documents)
 
-## Test Results
-- Phase 3: Frontend 100%
-- Phase 4: SEO 98%, Lead Capture 90%
-
-## Files Modified/Created
-- `/app/index.html` - Complete SEO + lead capture
-- `/app/xanadu-922.html` - New property page
-- `/app/xanadu-313.html` - New property page
-- `/app/xanadu-310.html` - New property page
-- `/app/sitemap.xml` - SEO sitemap
-- `/app/robots.txt` - Crawler rules
-
-## Analytics Setup Required
-Replace placeholders with actual IDs:
-1. GA4: Replace `GA_MEASUREMENT_ID` with your GA4 ID
-2. Meta Pixel: Replace `PIXEL_ID` with your Facebook Pixel ID
-
-## Next Action Items
-1. Push to GitHub (feature/calendar-host-traveller-aadhaar)
-2. Create PR and get reviewed
-3. Submit sitemap.xml to Google Search Console
-4. Add actual GA4 and Meta Pixel IDs
-
-## Future/Backlog (P2)
-- Real-time availability calendar sync
-- Review widget integration (Google/Airbnb)
-- Mailchimp/Sendinblue email automation
-- Retargeting ads setup
-- A/B testing on lead capture popups
+## Next Steps
+1. Add Supabase keys to backend/.env
+2. Run supabase-setup.sql in Supabase
+3. Create storage bucket
+4. Test the vault functionality
+5. Push to GitHub

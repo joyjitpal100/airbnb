@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest ID Vault - Admin | Xanadu Stays</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+        
+        .navbar { background: #1a1a1a; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 20px; font-weight: 700; color: #fff; text-decoration: none; }
+        .logo span { color: #e31c5f; }
+        .nav-links { display: flex; gap: 16px; align-items: center; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; }
+        .nav-links a:hover { color: #fff; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+        .page-title { font-size: 28px; font-weight: 700; }
+        .page-title span { color: #e31c5f; }
+        
+        .tabs { display: flex; gap: 8px; background: #fff; padding: 6px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .tab { padding: 10px 20px; border-radius: 8px; border: none; background: transparent; font-size: 14px; font-weight: 500; cursor: pointer; color: #666; transition: all 0.2s; }
+        .tab.active { background: #e31c5f; color: #fff; }
+        .tab:hover:not(.active) { background: #f0f0f0; }
+        
+        .panel { display: none; }
+        .panel.active { display: block; }
+        
+        /* Form Styles */
+        .card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; }
+        .card-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .card-title svg { color: #e31c5f; }
+        
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { font-size: 13px; font-weight: 500; color: #444; margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea { padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #e31c5f; }
+        
+        .file-upload { border: 2px dashed #ddd; border-radius: 8px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .file-upload:hover { border-color: #e31c5f; background: #fff5f7; }
+        .file-upload.has-file { border-color: #00a699; background: #f0faf9; }
+        .file-upload input { display: none; }
+        .file-upload-text { font-size: 14px; color: #666; }
+        .file-name { font-size: 13px; color: #00a699; font-weight: 500; margin-top: 8px; }
+        
+        .btn { padding: 12px 24px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: #e31c5f; color: #fff; }
+        .btn-primary:hover { background: #c4174a; }
+        .btn-secondary { background: #f0f0f0; color: #444; }
+        .btn-secondary:hover { background: #e0e0e0; }
+        .btn-danger { background: #dc3545; color: #fff; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-sm { padding: 8px 14px; font-size: 13px; }
+        
+        /* Table Styles */
+        .filters { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+        .filters input, .filters select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .filters input { flex: 1; min-width: 200px; }
+        
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        th { background: #f8f8f8; font-weight: 600; color: #444; white-space: nowrap; }
+        tr:hover { background: #fafafa; }
+        
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; display: inline-block; }
+        .badge-active { background: #d4edda; color: #155724; }
+        .badge-eligible { background: #fff3cd; color: #856404; }
+        .badge-deleted { background: #f8d7da; color: #721c24; }
+        
+        .actions { display: flex; gap: 8px; }
+        .action-btn { padding: 6px 10px; border-radius: 6px; border: none; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .action-view { background: #e7f3ff; color: #0066cc; }
+        .action-view:hover { background: #cce5ff; }
+        .action-delete { background: #ffe6e6; color: #cc0000; }
+        .action-delete:hover { background: #ffcccc; }
+        
+        /* Review Section */
+        .review-section { margin-bottom: 24px; }
+        .review-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .review-count { background: #e31c5f; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+        .review-item { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .review-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .review-info p { font-size: 13px; color: #666; }
+        .review-meta { text-align: right; }
+        .retention-date { font-size: 13px; color: #856404; font-weight: 500; }
+        
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 18px; font-weight: 600; }
+        .modal-close { width: 32px; height: 32px; border: none; background: #f0f0f0; border-radius: 50%; cursor: pointer; font-size: 18px; }
+        .modal-body { padding: 20px; }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .detail-label { font-size: 13px; color: #666; }
+        .detail-value { font-size: 14px; font-weight: 500; }
+        .modal-footer { padding: 20px; border-top: 1px solid #eee; display: flex; gap: 12px; justify-content: flex-end; }
+        
+        /* Empty State */
+        .empty-state { text-align: center; padding: 60px 20px; color: #888; }
+        .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; }
+            .tabs { width: 100%; overflow-x: auto; }
+            .form-grid { grid-template-columns: 1fr; }
+            .review-item { flex-direction: column; align-items: flex-start; }
+            .review-meta { text-align: left; }
+        }
+        
+        /* Status indicator */
+        .status-bar { background: #fff3cd; padding: 12px 24px; text-align: center; font-size: 14px; color: #856404; }
+        .status-bar.error { background: #f8d7da; color: #721c24; }
+        .status-bar.success { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">Xanadu<span>Stays</span></a>
+        <div class="nav-links">
+            <a href="index.html">Public Site</a>
+            <a href="siddha-skyview-details.html">Bookings</a>
+        </div>
+    </nav>
+
+    <div id="statusBar" class="status-bar" style="display: none;"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="page-title">Guest ID <span>Vault</span></h1>
+            <div class="tabs">
+                <button class="tab active" onclick="showPanel('add')">Add Guest</button>
+                <button class="tab" onclick="showPanel('list')">All Records</button>
+                <button class="tab" onclick="showPanel('review')">Retention Review</button>
+            </div>
+        </div>
+
+        <!-- Add Guest Panel -->
+        <div id="panel-add" class="panel active">
+            <div class="card">
+                <h2 class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    New Guest Record
+                </h2>
+                <form id="guestForm" onsubmit="return handleSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Guest Full Name *</label>
+                            <input type="text" id="guestName" required placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Booking Source</label>
+                            <select id="bookingSource">
+                                <option value="direct">Direct</option>
+                                <option value="airbnb">Airbnb</option>
+                                <option value="makemytrip">MakeMyTrip</option>
+                                <option value="booking">Booking.com</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Property</label>
+                            <select id="propertyName">
+                                <option value="Siddha SkyView Studio">Siddha SkyView Studio</option>
+                                <option value="Xanadu 922">Xanadu 922</option>
+                                <option value="Xanadu 313">Xanadu 313</option>
+                                <option value="Xanadu 310">Xanadu 310</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Check-in Date *</label>
+                            <input type="date" id="checkInDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Check-out Date</label>
+                            <input type="date" id="checkOutDate">
+                        </div>
+                        <div class="form-group full">
+                            <label>Notes</label>
+                            <textarea id="notes" rows="2" placeholder="Any additional notes..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Document Type</label>
+                            <select id="documentType">
+                                <option value="">Select type</option>
+                                <option value="aadhaar">Aadhaar Card</option>
+                                <option value="passport">Passport</option>
+                                <option value="driving_license">Driving License</option>
+                                <option value="other">Other ID</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label>ID Document (PDF, JPG, PNG - Max 5MB)</label>
+                            <div class="file-upload" id="fileUpload" onclick="document.getElementById('documentFile').click()">
+                                <input type="file" id="documentFile" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(event)">
+                                <div class="file-upload-text">Click to upload document</div>
+                                <div class="file-name" id="fileName"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; display: flex; gap: 12px;">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Save Guest Record</button>
+                        <button type="reset" class="btn btn-secondary" onclick="resetForm()">Clear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- List Panel -->
+        <div id="panel-list" class="panel">
+            <div class="card">
+                <h2 class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                    Guest Records
+                </h2>
+                <div class="filters">
+                    <input type="text" id="searchInput" placeholder="Search by name or phone..." onkeyup="debounceSearch()">
+                    <select id="filterProperty" onchange="loadRecords()">
+                        <option value="">All Properties</option>
+                    </select>
+                    <select id="filterSource" onchange="loadRecords()">
+                        <option value="">All Sources</option>
+                        <option value="direct">Direct</option>
+                        <option value="airbnb">Airbnb</option>
+                        <option value="makemytrip">MakeMyTrip</option>
+                        <option value="booking">Booking.com</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="filterStatus" onchange="loadRecords()">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="eligible_for_deletion">Eligible for Deletion</option>
+                        <option value="deleted">Deleted</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Guest Name</th>
+                                <th>Phone</th>
+                                <th>Property</th>
+                                <th>Check-in</th>
+                                <th>Source</th>
+                                <th>Retention Until</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsTable">
+                            <tr><td colspan="8" class="empty-state">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Panel -->
+        <div id="panel-review" class="panel">
+            <div class="review-section">
+                <h3 class="review-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#856404"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                    Expiring in Next 30 Days
+                    <span class="review-count" id="expiringCount">0</span>
+                </h3>
+                <div id="expiringList"></div>
+            </div>
+
+            <div class="review-section">
+                <h3 class="review-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc3545"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    Eligible for Deletion
+                    <span class="review-count" id="eligibleCount">0</span>
+                </h3>
+                <div id="eligibleList"></div>
+            </div>
+
+            <div class="review-section">
+                <h3 class="review-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#6c757d"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    Soft Deleted (Ready for Permanent Delete)
+                    <span class="review-count" id="deletedCount">0</span>
+                </h3>
+                <div id="deletedList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Guest Details</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
+            <div class="modal-footer" id="modalFooter"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8001' 
+            : window.location.origin;
+        
+        let searchTimeout;
+        let currentRecord = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkVaultStatus();
+            loadProperties();
+        });
+
+        async function checkVaultStatus() {
+            try {
+                const res = await fetch(`${API_URL}/api/vault/status`);
+                const data = await res.json();
+                if (!data.configured) {
+                    showStatus('Supabase not configured. Please add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to backend/.env', 'error');
+                }
+            } catch (e) {
+                showStatus('Cannot connect to backend. Please check if the server is running.', 'error');
+            }
+        }
+
+        function showStatus(message, type = 'warning') {
+            const bar = document.getElementById('statusBar');
+            bar.textContent = message;
+            bar.className = `status-bar ${type}`;
+            bar.style.display = 'block';
+        }
+
+        function showPanel(panel) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`panel-${panel}`).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (panel === 'list') loadRecords();
+            if (panel === 'review') loadReview();
+        }
+
+        async function loadProperties() {
+            try {
+                const res = await fetch(`${API_URL}/api/vault/properties`);
+                const data = await res.json();
+                const select = document.getElementById('filterProperty');
+                data.properties.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p;
+                    opt.textContent = p;
+                    select.appendChild(opt);
+                });
+            } catch (e) {}
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const upload = document.getElementById('fileUpload');
+            const nameEl = document.getElementById('fileName');
+            
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File too large. Maximum 5MB.');
+                    event.target.value = '';
+                    return;
+                }
+                nameEl.textContent = file.name;
+                upload.classList.add('has-file');
+            } else {
+                nameEl.textContent = '';
+                upload.classList.remove('has-file');
+            }
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Saving...';
+            
+            const formData = new FormData();
+            formData.append('guest_name', document.getElementById('guestName').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('booking_source', document.getElementById('bookingSource').value);
+            formData.append('property_name', document.getElementById('propertyName').value);
+            formData.append('check_in_date', document.getElementById('checkInDate').value);
+            formData.append('check_out_date', document.getElementById('checkOutDate').value);
+            formData.append('notes', document.getElementById('notes').value);
+            formData.append('document_type', document.getElementById('documentType').value);
+            
+            const file = document.getElementById('documentFile').files[0];
+            if (file) formData.append('document_file', file);
+            
+            try {
+                const res = await fetch(`${API_URL}/api/vault/guests`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    alert('Guest record saved successfully!');
+                    resetForm();
+                } else {
+                    alert('Error: ' + (data.detail || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Failed to save: ' + e.message);
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Save Guest Record';
+            return false;
+        }
+
+        function resetForm() {
+            document.getElementById('guestForm').reset();
+            document.getElementById('fileName').textContent = '';
+            document.getElementById('fileUpload').classList.remove('has-file');
+        }
+
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(loadRecords, 300);
+        }
+
+        async function loadRecords() {
+            const search = document.getElementById('searchInput').value;
+            const property = document.getElementById('filterProperty').value;
+            const source = document.getElementById('filterSource').value;
+            const status = document.getElementById('filterStatus').value;
+            
+            let url = `${API_URL}/api/vault/guests?`;
+            if (search) url += `search=${encodeURIComponent(search)}&`;
+            if (property) url += `property_name=${encodeURIComponent(property)}&`;
+            if (source) url += `booking_source=${source}&`;
+            if (status) url += `status=${status}&`;
+            
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                renderTable(data.records || []);
+            } catch (e) {
+                document.getElementById('recordsTable').innerHTML = 
+                    '<tr><td colspan="8" class="empty-state">Failed to load records</td></tr>';
+            }
+        }
+
+        function renderTable(records) {
+            const tbody = document.getElementById('recordsTable');
+            
+            if (!records.length) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No records found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = records.map(r => `
+                <tr>
+                    <td><strong>${escapeHtml(r.guest_name)}</strong></td>
+                    <td>${escapeHtml(r.phone || '-')}</td>
+                    <td>${escapeHtml(r.property_name || '-')}</td>
+                    <td>${r.check_in_date || '-'}</td>
+                    <td>${r.booking_source || '-'}</td>
+                    <td>${r.retention_until}</td>
+                    <td><span class="badge badge-${getStatusClass(r.status)}">${r.status}</span></td>
+                    <td class="actions">
+                        <button class="action-btn action-view" onclick="viewRecord('${r.id}')">View</button>
+                        ${r.status !== 'deleted' ? `<button class="action-btn action-delete" onclick="softDelete('${r.id}')">Delete</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusClass(status) {
+            if (status === 'active') return 'active';
+            if (status === 'eligible_for_deletion') return 'eligible';
+            return 'deleted';
+        }
+
+        async function loadReview() {
+            try {
+                const res = await fetch(`${API_URL}/api/vault/retention-review`);
+                const data = await res.json();
+                
+                document.getElementById('expiringCount').textContent = data.expiring_soon?.length || 0;
+                document.getElementById('eligibleCount').textContent = data.eligible_for_deletion?.length || 0;
+                document.getElementById('deletedCount').textContent = data.soft_deleted?.length || 0;
+                
+                renderReviewList('expiringList', data.expiring_soon || [], 'warning');
+                renderReviewList('eligibleList', data.eligible_for_deletion || [], 'danger');
+                renderReviewList('deletedList', data.soft_deleted || [], 'muted', true);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderReviewList(containerId, records, type, showPermanent = false) {
+            const container = document.getElementById(containerId);
+            
+            if (!records.length) {
+                container.innerHTML = '<div class="empty-state" style="padding: 20px;">No records</div>';
+                return;
+            }
+            
+            container.innerHTML = records.map(r => `
+                <div class="review-item">
+                    <div class="review-info">
+                        <h4>${escapeHtml(r.guest_name)}</h4>
+                        <p>${escapeHtml(r.property_name || '')} · ${r.booking_source || ''} · ${escapeHtml(r.phone || '')}</p>
+                    </div>
+                    <div class="review-meta">
+                        <div class="retention-date">Retention: ${r.retention_until}</div>
+                        <div style="margin-top: 8px;">
+                            <button class="btn btn-sm btn-secondary" onclick="viewRecord('${r.id}')">View</button>
+                            ${!showPermanent ? `<button class="btn btn-sm btn-danger" onclick="softDelete('${r.id}')">Soft Delete</button>` : ''}
+                            ${showPermanent ? `<button class="btn btn-sm btn-danger" onclick="permanentDelete('${r.id}')">Permanent Delete</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function viewRecord(id) {
+            try {
+                const res = await fetch(`${API_URL}/api/vault/guests/${id}`);
+                currentRecord = await res.json();
+                
+                const content = document.getElementById('modalContent');
+                content.innerHTML = `
+                    <div class="detail-row"><span class="detail-label">Guest Name</span><span class="detail-value">${escapeHtml(currentRecord.guest_name)}</span></div>
+                    <div class="detail-row"><span class="detail-label">Phone</span><span class="detail-value">${escapeHtml(currentRecord.phone || '-')}</span></div>
+                    <div class="detail-row"><span class="detail-label">Property</span><span class="detail-value">${escapeHtml(currentRecord.property_name || '-')}</span></div>
+                    <div class="detail-row"><span class="detail-label">Booking Source</span><span class="detail-value">${currentRecord.booking_source || '-'}</span></div>
+                    <div class="detail-row"><span class="detail-label">Check-in</span><span class="detail-value">${currentRecord.check_in_date || '-'}</span></div>
+                    <div class="detail-row"><span class="detail-label">Check-out</span><span class="detail-value">${currentRecord.check_out_date || '-'}</span></div>
+                    <div class="detail-row"><span class="detail-label">Document Type</span><span class="detail-value">${currentRecord.document_type || '-'}</span></div>
+                    <div class="detail-row"><span class="detail-label">File</span><span class="detail-value">${currentRecord.file_name || 'No file'}</span></div>
+                    <div class="detail-row"><span class="detail-label">Uploaded</span><span class="detail-value">${currentRecord.uploaded_at ? new Date(currentRecord.uploaded_at).toLocaleDateString() : '-'}</span></div>
+                    <div class="detail-row"><span class="detail-label">Retention Until</span><span class="detail-value" style="color: #856404; font-weight: 600;">${currentRecord.retention_until}</span></div>
+                    <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value"><span class="badge badge-${getStatusClass(currentRecord.status)}">${currentRecord.status}</span></span></div>
+                    <div class="detail-row"><span class="detail-label">Notes</span><span class="detail-value">${escapeHtml(currentRecord.notes || '-')}</span></div>
+                `;
+                
+                const footer = document.getElementById('modalFooter');
+                footer.innerHTML = `
+                    ${currentRecord.file_path ? `<button class="btn btn-secondary" onclick="viewDocument('${id}')">View Document</button>` : ''}
+                    <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                `;
+                
+                document.getElementById('detailModal').classList.add('active');
+            } catch (e) {
+                alert('Failed to load record');
+            }
+        }
+
+        async function viewDocument(id) {
+            try {
+                const res = await fetch(`${API_URL}/api/vault/guests/${id}/document-url`);
+                const data = await res.json();
+                if (data.url) {
+                    window.open(data.url, '_blank');
+                } else {
+                    alert('Could not get document URL');
+                }
+            } catch (e) {
+                alert('Failed to get document: ' + e.message);
+            }
+        }
+
+        async function softDelete(id) {
+            if (!confirm('Mark this record for deletion? The file will not be removed until you perform a permanent delete.')) return;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/vault/guests/${id}/soft-delete`, { method: 'PATCH' });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Record marked as deleted');
+                    loadRecords();
+                    loadReview();
+                }
+            } catch (e) {
+                alert('Failed to delete: ' + e.message);
+            }
+        }
+
+        async function permanentDelete(id) {
+            if (!confirm('PERMANENTLY delete this record and its files? This cannot be undone!')) return;
+            if (!confirm('Are you absolutely sure? This will remove all data permanently.')) return;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/vault/guests/${id}/permanent`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Record permanently deleted');
+                    loadReview();
+                }
+            } catch (e) {
+                alert('Failed to delete: ' + e.message);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+            currentRecord = null;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
+</body>
+</html>
