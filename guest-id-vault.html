@@ -332,7 +332,11 @@
                 const res = await fetch(`${API_URL}/api/vault/status`);
                 const data = await res.json();
                 if (!data.configured) {
-                    showStatus('Supabase not configured. Please add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to backend/.env', 'error');
+                    let msg = 'Configuration required: ';
+                    if (!data.supabase_configured) msg += 'Supabase credentials missing. ';
+                    if (!data.r2_configured) msg += 'Cloudflare R2 credentials missing. ';
+                    msg += 'Add keys to backend/.env';
+                    showStatus(msg, 'error');
                 }
             } catch (e) {
                 showStatus('Cannot connect to backend. Please check if the server is running.', 'error');

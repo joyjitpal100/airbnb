@@ -9,6 +9,8 @@ from fastapi.responses import FileResponse
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from supabase import create_client, Client
+import boto3
+from botocore.config import Config
 
 load_dotenv()
 
@@ -38,7 +40,7 @@ ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
 # ============================================
-# SUPABASE CONFIGURATION (Guest ID Vault)
+# SUPABASE CONFIGURATION (Metadata only)
 # ============================================
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
@@ -46,7 +48,7 @@ SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 # Retention configuration (7 years)
 RETENTION_YEARS = 7
 
-# Initialize Supabase client (uses service role for server-side operations)
+# Initialize Supabase client (for metadata storage)
 supabase: Optional[Client] = None
 if SUPABASE_URL and SUPABASE_SERVICE_KEY:
     try:
@@ -54,7 +56,67 @@ if SUPABASE_URL and SUPABASE_SERVICE_KEY:
     except Exception as e:
         print(f"Warning: Could not initialize Supabase client: {e}")
 
-STORAGE_BUCKET = "guest-id-documents"
+# ============================================
+# CLOUDFLARE R2 CONFIGURATION (File storage)
+# ============================================
+R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID")
+R2_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY")
+R2_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME", "guest-id-documents")
+R2_PUBLIC_URL = os.environ.get("R2_PUBLIC_URL", "")
+
+# Initialize R2 client (S3-compatible)
+r2_client = None
+if R2_ACCOUNT_ID and R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY:
+    try:
+        r2_client = boto3.client(
+            "s3",
+            endpoint_url=f"https://{R2_ACCOUNT_ID}.r2.cloudflarestorage.com",
+            aws_access_key_id=R2_ACCESS_KEY_ID,
+            aws_secret_access_key=R2_SECRET_ACCESS_KEY,
+            config=Config(signature_version="s3v4"),
+            region_name="auto"
+        )
+    except Exception as e:
+        print(f"Warning: Could not initialize R2 client: {e}")
+
+
+def upload_to_r2(file_content: bytes, file_key: str, content_type: str) -> str:
+    """Upload file to Cloudflare R2 and return the file path"""
+    if not r2_client:
+        raise HTTPException(status_code=503, detail="R2 storage not configured")
+    
+    r2_client.put_object(
+        Bucket=R2_BUCKET_NAME,
+        Key=file_key,
+        Body=file_content,
+        ContentType=content_type
+    )
+    return file_key
+
+
+def get_r2_presigned_url(file_key: str, expires_in: int = 3600) -> str:
+    """Generate a presigned URL for downloading a file from R2"""
+    if not r2_client:
+        raise HTTPException(status_code=503, detail="R2 storage not configured")
+    
+    url = r2_client.generate_presigned_url(
+        "get_object",
+        Params={"Bucket": R2_BUCKET_NAME, "Key": file_key},
+        ExpiresIn=expires_in
+    )
+    return url
+
+
+def delete_from_r2(file_key: str) -> bool:
+    """Delete a file from R2"""
+    if not r2_client:
+        return False
+    try:
+        r2_client.delete_object(Bucket=R2_BUCKET_NAME, Key=file_key)
+        return True
+    except Exception:
+        return False
 
 
 def calculate_retention_date(check_out_date: Optional[str], uploaded_at: datetime) -> str:
@@ -80,7 +142,8 @@ def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "supabase_connected": supabase is not None
+        "supabase_connected": supabase is not None,
+        "r2_connected": r2_client is not None
     }
 
 
@@ -171,9 +234,11 @@ def delete_booking(booking_id: str):
 def vault_status():
     """Check if Guest ID Vault is properly configured"""
     return {
-        "configured": supabase is not None,
+        "configured": supabase is not None and r2_client is not None,
+        "supabase_configured": supabase is not None,
+        "r2_configured": r2_client is not None,
         "retention_years": RETENTION_YEARS,
-        "storage_bucket": STORAGE_BUCKET
+        "storage_bucket": R2_BUCKET_NAME
     }
 
 
@@ -189,7 +254,7 @@ async def create_guest_record(
     document_type: str = Form(None),
     document_file: Optional[UploadFile] = File(None)
 ):
-    """Create a new guest record with optional document upload"""
+    """Create a new guest record with optional document upload to R2"""
     if not supabase:
         raise HTTPException(status_code=503, detail="Supabase not configured")
     
@@ -203,8 +268,11 @@ async def create_guest_record(
     file_name = None
     file_path = None
     
-    # Handle document upload
+    # Handle document upload to Cloudflare R2
     if document_file:
+        if not r2_client:
+            raise HTTPException(status_code=503, detail="R2 storage not configured")
+        
         file_ext = os.path.splitext(document_file.filename)[1].lower()
         if file_ext not in ALLOWED_EXTENSIONS:
             raise HTTPException(status_code=400, detail="Invalid file type. Allowed: jpg, jpeg, png, pdf")
@@ -213,13 +281,17 @@ async def create_guest_record(
         if len(content) > MAX_FILE_SIZE:
             raise HTTPException(status_code=400, detail="File too large. Maximum size: 5MB")
         
-        # Upload to Supabase Storage
+        # Upload to Cloudflare R2
         file_name = document_file.filename
         unique_name = f"{uuid.uuid4()}{file_ext}"
         file_path = f"documents/{unique_name}"
         
+        # Determine content type
+        content_types = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".pdf": "application/pdf"}
+        content_type = content_types.get(file_ext, "application/octet-stream")
+        
         try:
-            supabase.storage.from_(STORAGE_BUCKET).upload(file_path, content)
+            upload_to_r2(content, file_path, content_type)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to upload file: {str(e)}")
     
@@ -308,9 +380,11 @@ def get_guest_record(guest_id: str):
 
 @app.get("/api/vault/guests/{guest_id}/document-url")
 def get_document_url(guest_id: str):
-    """Get a signed URL for the document"""
+    """Get a signed URL for the document from R2"""
     if not supabase:
         raise HTTPException(status_code=503, detail="Supabase not configured")
+    if not r2_client:
+        raise HTTPException(status_code=503, detail="R2 storage not configured")
     
     try:
         result = supabase.table("guest_documents").select("file_path").eq("id", guest_id).single().execute()
@@ -320,9 +394,9 @@ def get_document_url(guest_id: str):
         
         file_path = result.data["file_path"]
         
-        # Create signed URL (valid for 1 hour)
-        signed_url = supabase.storage.from_(STORAGE_BUCKET).create_signed_url(file_path, 3600)
-        return {"url": signed_url.get("signedURL") or signed_url.get("signedUrl")}
+        # Create presigned URL from R2 (valid for 1 hour)
+        signed_url = get_r2_presigned_url(file_path, 3600)
+        return {"url": signed_url}
     except HTTPException:
         raise
     except Exception as e:
@@ -344,7 +418,7 @@ def soft_delete_guest(guest_id: str):
 
 @app.delete("/api/vault/guests/{guest_id}/permanent")
 def permanent_delete_guest(guest_id: str):
-    """Permanently delete a guest record and its file (only if already soft-deleted)"""
+    """Permanently delete a guest record and its file from R2 (only if already soft-deleted)"""
     if not supabase:
         raise HTTPException(status_code=503, detail="Supabase not configured")
     
@@ -358,14 +432,11 @@ def permanent_delete_guest(guest_id: str):
         if record.data.get("status") != "deleted":
             raise HTTPException(status_code=400, detail="Record must be soft-deleted first")
         
-        # Delete file from storage
+        # Delete file from R2 storage
         if record.data.get("file_path"):
-            try:
-                supabase.storage.from_(STORAGE_BUCKET).remove([record.data["file_path"]])
-            except Exception:
-                pass  # Continue even if file deletion fails
+            delete_from_r2(record.data["file_path"])
         
-        # Delete record
+        # Delete record from Supabase
         supabase.table("guest_documents").delete().eq("id", guest_id).execute()
         return {"success": True, "message": "Record permanently deleted"}
     except HTTPException:

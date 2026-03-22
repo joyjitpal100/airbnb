@@ -30,16 +30,39 @@ Store and track guest identity documents with 7-year retention for compliance.
 - [x] File validation (PDF, JPG, PNG, max 5MB)
 - [x] Mobile-responsive UI
 
-### Supabase Setup Required
-1. Run `/app/supabase-setup.sql` in Supabase SQL Editor
-2. Create storage bucket `guest-id-documents` (private)
-3. Add to `/app/backend/.env`:
-   ```
-   SUPABASE_URL=https://smceyhikbpawrdkmqemf.supabase.co
-   SUPABASE_ANON_KEY=your_anon_key
-   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-   ```
-4. Restart backend: `sudo supervisorctl restart backend`
+### Storage Configuration
+
+**File Storage: Cloudflare R2**
+- Files uploaded via backend API to R2 bucket
+- Presigned URLs generated for secure downloads
+- Credentials never exposed to frontend
+
+**Metadata Storage: Supabase**
+- Guest records stored in `guest_documents` table
+- File path references stored, not actual files
+
+### Environment Variables
+```bash
+# Supabase (metadata)
+SUPABASE_URL=https://smceyhikbpawrdkmqemf.supabase.co
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Cloudflare R2 (file storage)
+R2_ACCOUNT_ID=your_account_id
+R2_ACCESS_KEY_ID=your_access_key_id
+R2_SECRET_ACCESS_KEY=your_secret_access_key
+R2_BUCKET_NAME=guest-id-documents
+R2_PUBLIC_URL=https://your-bucket.r2.dev  # optional
+```
+
+### R2 Setup Steps
+1. Go to Cloudflare Dashboard → R2
+2. Create bucket named `guest-id-documents`
+3. Create API token with read/write permissions
+4. Copy Account ID, Access Key ID, Secret Access Key
+5. Add to `/app/backend/.env`
+6. Restart backend: `sudo supervisorctl restart backend`
 
 ### API Endpoints
 | Endpoint | Method | Description |
