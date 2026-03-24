@@ -95,7 +95,7 @@ export async function handler(event) {
     // GET /guests
     if (path === '/guests' && method === 'GET') {
       const params = event.queryStringParameters || {};
-      let query = supabase.table('guest_documents').select('*');
+      let query = supabase.from('guest_documents').select('*');
 
       if (params.search) {
         query = query.or(`guest_name.ilike.%${params.search}%,phone.ilike.%${params.search}%`);
@@ -161,7 +161,7 @@ export async function handler(event) {
         created_by: user.id,
       };
 
-      const { data, error } = await supabase.table('guest_documents').insert(record).select().single();
+      const { data, error } = await supabase.from('guest_documents').insert(record).select().single();
       if (error) throw error;
 
       return jsonResponse({ success: true, record: data });
@@ -171,7 +171,7 @@ export async function handler(event) {
     const singleMatch = path.match(/^\/guests\/([a-f0-9-]+)$/);
     if (singleMatch && method === 'GET') {
       const { data, error } = await supabase
-        .table('guest_documents').select('*').eq('id', singleMatch[1]).single();
+        .from('guest_documents').select('*').eq('id', singleMatch[1]).single();
       if (error || !data) return errorResponse('Record not found', 404);
       return jsonResponse(data);
     }
@@ -181,7 +181,7 @@ export async function handler(event) {
     if (docUrlMatch && method === 'GET') {
       if (!r2Client) return errorResponse('R2 not configured', 503);
       const { data, error } = await supabase
-        .table('guest_documents').select('file_path').eq('id', docUrlMatch[1]).single();
+        .from('guest_documents').select('file_path').eq('id', docUrlMatch[1]).single();
       if (error || !data?.file_path) return errorResponse('No document found', 404);
       const url = await getPresignedUrl(data.file_path, 3600);
       return jsonResponse({ url });
@@ -191,7 +191,7 @@ export async function handler(event) {
     const softDelMatch = path.match(/^\/guests\/([a-f0-9-]+)\/soft-delete$/);
     if (softDelMatch && method === 'PATCH') {
       const { error } = await supabase
-        .table('guest_documents')
+        .from('guest_documents')
         .update({ status: 'deleted', updated_at: new Date().toISOString() })
         .eq('id', softDelMatch[1]);
       if (error) throw error;
@@ -202,12 +202,12 @@ export async function handler(event) {
     const permDelMatch = path.match(/^\/guests\/([a-f0-9-]+)\/permanent$/);
     if (permDelMatch && method === 'DELETE') {
       const { data: record, error: fetchErr } = await supabase
-        .table('guest_documents').select('*').eq('id', permDelMatch[1]).single();
+        .from('guest_documents').select('*').eq('id', permDelMatch[1]).single();
       if (fetchErr || !record) return errorResponse('Record not found', 404);
       if (record.status !== 'deleted') return errorResponse('Must soft-delete first');
 
       if (record.file_path) await deleteFromR2(record.file_path);
-      await supabase.table('guest_documents').delete().eq('id', permDelMatch[1]);
+      await supabase.from('guest_documents').delete().eq('id', permDelMatch[1]);
       return jsonResponse({ success: true, message: 'Permanently deleted' });
     }
 
@@ -218,13 +218,13 @@ export async function handler(event) {
       const thirtyDays = new Date(today.getTime() + 30 * 86400000).toISOString().split('T')[0];
 
       const [expiring, eligible, deleted] = await Promise.all([
-        supabase.table('guest_documents').select('*')
+        supabase.from('guest_documents').select('*')
           .eq('status', 'active').gte('retention_until', todayStr).lte('retention_until', thirtyDays)
           .order('retention_until'),
-        supabase.table('guest_documents').select('*')
+        supabase.from('guest_documents').select('*')
           .eq('status', 'active').lt('retention_until', todayStr)
           .order('retention_until'),
-        supabase.table('guest_documents').select('*')
+        supabase.from('guest_documents').select('*')
           .eq('status', 'deleted').order('updated_at', { ascending: false }),
       ]);
 
@@ -237,7 +237,7 @@ export async function handler(event) {
 
     // GET /properties
     if (path === '/properties' && method === 'GET') {
-      const { data } = await supabase.table('guest_documents').select('property_name');
+      const { data } = await supabase.from('guest_documents').select('property_name');
       const properties = [...new Set(data?.filter(r => r.property_name).map(r => r.property_name))].sort();
       return jsonResponse({ properties });
     }
