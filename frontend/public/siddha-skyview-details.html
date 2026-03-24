@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siddha SkyView Studio - Booking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f7f7f7;
+            color: #222;
+            line-height: 1.6;
+            padding-bottom: 20px;
+        }
+
+        .navbar {
+            background-color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-button {
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .property-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 24px;
+            padding: 4px;
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .toggle-btn.active {
+            background: #e31c5f;
+            color: white;
+        }
+
+        /* Content wrapper */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* Traveller View Styles */
+        .traveller-view {
+            display: block;
+        }
+
+        .host-view {
+            display: none;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 180px 180px;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .main-image {
+            grid-row: 1 / span 2;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .side-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .property-location {
+            font-size: 22px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 6px;
+        }
+
+        .property-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #222;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #e31c5f;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-upload:hover {
+            border-color: #e31c5f;
+            background: #fff5f7;
+        }
+
+        .file-upload.has-file {
+            border-color: #00a699;
+            background: #f0faf9;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-upload-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .file-upload-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .file-name {
+            font-size: 13px;
+            color: #00a699;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        /* Price Summary */
+        .price-summary {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .price-row.total {
+            border-top: 2px solid #ddd;
+            margin-top: 8px;
+            padding-top: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            color: #222;
+        }
+
+        .book-btn {
+            width: 100%;
+            background: #e31c5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.3s;
+        }
+
+        .book-btn:hover {
+            background: #c4174a;
+        }
+
+        .book-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Host View Styles */
+        .host-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .host-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .booking-count {
+            background: #e31c5f;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .bookings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .booking-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .booking-id {
+            font-size: 12px;
+            color: #888;
+            font-family: monospace;
+        }
+
+        .booking-guest {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .booking-status {
+            background: #00a699;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .booking-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #222;
+        }
+
+        .aadhaar-section {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .aadhaar-icon {
+            width: 40px;
+            height: 40px;
+            background: #e31c5f;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .aadhaar-info {
+            flex: 1;
+        }
+
+        .aadhaar-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #222;
+        }
+
+        .aadhaar-meta {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .view-aadhaar-btn {
+            background: #222;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .view-aadhaar-btn:hover {
+            background: #444;
+        }
+
+        .no-bookings {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .no-bookings-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .qr-image {
+            max-width: 260px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 12px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            background: #00a699;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .confirm-btn:hover {
+            background: #008f82;
+        }
+
+        /* Success content */
+        .success-content {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #00a699;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .success-message {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .success-btn {
+            background: #e31c5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px;
+            }
+
+            .nav-left {
+                width: 100%;
+            }
+
+            .view-toggle {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: 200px 100px 100px;
+            }
+
+            .main-image {
+                grid-row: 1;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .aadhaar-section {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="back-button" data-testid="back-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <div class="property-title">Siddha SkyView Studio</div>
+        </div>
+        <div class="view-toggle">
+            <button class="toggle-btn active" data-testid="traveller-toggle" onclick="switchView('traveller')">Traveller</button>
+            <button class="toggle-btn" data-testid="host-toggle" onclick="switchView('host')">Host</button>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Traveller View -->
+        <div class="traveller-view" id="travellerView">
+            <div class="image-grid">
+                <img src="604.jpg" alt="Living Room" class="main-image">
+                <img src="604-1.jpg" alt="Bedroom" class="side-image">
+                <img src="604-2.jpeg" alt="Pool" class="side-image">
+            </div>
+
+            <div class="property-card">
+                <h1 class="property-location">Entire apartment in Kolkata, India</h1>
+                <p class="property-details">Up to 4 guests · 1 bedroom · 2 beds · 1 bathroom</p>
+            </div>
+
+            <div class="property-card">
+                <h2 class="section-title">Book Your Stay</h2>
+                <form class="booking-form" id="bookingForm" onsubmit="return handleBooking(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guestName">Full Name *</label>
+                            <input type="text" id="guestName" data-testid="guest-name" required placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="guestPhone">Phone Number *</label>
+                            <input type="tel" id="guestPhone" data-testid="guest-phone" required placeholder="Enter phone number">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkIn">Check-in Date *</label>
+                            <input type="date" id="checkIn" data-testid="check-in" required onchange="calculatePrice()">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkOut">Check-out Date *</label>
+                            <input type="date" id="checkOut" data-testid="check-out" required onchange="calculatePrice()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numGuests">Number of Guests *</label>
+                        <select id="numGuests" data-testid="num-guests" required onchange="calculatePrice()">
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Aadhaar Card (for verification) *</label>
+                        <div class="file-upload" id="fileUpload" onclick="document.getElementById('aadhaarFile').click()">
+                            <input type="file" id="aadhaarFile" data-testid="aadhaar-file" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFileSelect(event)">
+                            <div class="file-upload-icon">📄</div>
+                            <div class="file-upload-text">Click to upload Aadhaar (JPG, PNG, PDF - Max 5MB)</div>
+                            <div class="file-name" id="fileName"></div>
+                        </div>
+                    </div>
+
+                    <div class="price-summary" id="priceSummary">
+                        <div class="price-row">
+                            <span>Base price</span>
+                            <span>₹2,500 / night</span>
+                        </div>
+                        <div class="price-row" id="extraGuestRow" style="display: none;">
+                            <span>Extra guest charge</span>
+                            <span id="extraGuestPrice">₹0</span>
+                        </div>
+                        <div class="price-row" id="nightsRow">
+                            <span id="nightsText">0 nights</span>
+                            <span id="nightsPrice">₹0</span>
+                        </div>
+                        <div class="price-row total">
+                            <span>Total</span>
+                            <span id="totalPrice">₹0</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="book-btn" data-testid="book-btn" id="bookBtn" disabled>Book Now</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Host View -->
+        <div class="host-view" id="hostView">
+            <div class="host-header">
+                <h1 class="host-title">Bookings Dashboard</h1>
+                <span class="booking-count" id="bookingCount">0 bookings</span>
+            </div>
+
+            <div class="bookings-list" id="bookingsList">
+                <div class="no-bookings" id="noBookings">
+                    <div class="no-bookings-icon">📋</div>
+                    <p>No bookings yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="paymentModal" data-testid="payment-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Complete Payment</h2>
+                <button class="modal-close" onclick="closeModal('paymentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="price-summary" id="modalSummary"></div>
+                <div class="qr-section">
+                    <h3 style="margin-bottom: 16px;">Scan to Pay</h3>
+                    <img src="payment-qr.png" alt="Payment QR" class="qr-image" data-testid="payment-qr">
+                    <p class="qr-note">Pay using Google Pay, Paytm, PhonePe or any UPI app</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-btn" data-testid="confirm-payment-btn" onclick="confirmPayment()">I Have Paid</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal" data-testid="success-modal">
+        <div class="modal">
+            <div class="success-content">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                </div>
+                <h2 class="success-title">Booking Confirmed!</h2>
+                <p class="success-message" id="successMessage">
+                    Your booking has been confirmed. We'll contact you on WhatsApp with the details.
+                </p>
+                <button class="success-btn" data-testid="success-close-btn" onclick="closeSuccessAndRefresh()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aadhaar View Modal -->
+    <div class="modal-overlay" id="aadhaarModal" data-testid="aadhaar-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Aadhaar Document</h2>
+                <button class="modal-close" onclick="closeModal('aadhaarModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <img id="aadhaarPreview" src="" alt="Aadhaar" style="max-width: 100%; border-radius: 8px;">
+                <p id="aadhaarPdfNote" style="display: none; margin-top: 16px;">
+                    <a id="aadhaarPdfLink" href="#" target="_blank" style="color: #e31c5f;">Download PDF</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8001' 
+            : window.location.origin;
+        
+        const BASE_PRICE = 2500;
+        const EXTRA_GUEST_PRICE = 500;
+        const MAX_GUESTS = 4;
+        
+        let currentBookingData = null;
+        let selectedFile = null;
+
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('checkIn').min = today;
+            document.getElementById('checkOut').min = today;
+            
+            // Load bookings for host view
+            loadBookings();
+        });
+
+        function switchView(view) {
+            const travellerBtn = document.querySelector('[data-testid="traveller-toggle"]');
+            const hostBtn = document.querySelector('[data-testid="host-toggle"]');
+            const travellerView = document.getElementById('travellerView');
+            const hostView = document.getElementById('hostView');
+
+            if (view === 'traveller') {
+                travellerBtn.classList.add('active');
+                hostBtn.classList.remove('active');
+                travellerView.style.display = 'block';
+                hostView.style.display = 'none';
+            } else {
+                hostBtn.classList.add('active');
+                travellerBtn.classList.remove('active');
+                hostView.style.display = 'block';
+                travellerView.style.display = 'none';
+                loadBookings();
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const fileUpload = document.getElementById('fileUpload');
+            const fileName = document.getElementById('fileName');
+            
+            if (file) {
+                // Validate file size (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File too large. Maximum size is 5MB.');
+                    event.target.value = '';
+                    return;
+                }
+                
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Invalid file type. Please upload JPG, PNG, or PDF.');
+                    event.target.value = '';
+                    return;
+                }
+                
+                selectedFile = file;
+                fileName.textContent = file.name;
+                fileUpload.classList.add('has-file');
+                calculatePrice();
+            }
+        }
+
+        function calculatePrice() {
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            const numGuests = parseInt(document.getElementById('numGuests').value);
+            
+            if (!checkIn || !checkOut) {
+                document.getElementById('bookBtn').disabled = true;
+                return;
+            }
+            
+            const startDate = new Date(checkIn);
+            const endDate = new Date(checkOut);
+            
+            if (endDate <= startDate) {
+                alert('Check-out date must be after check-in date');
+                document.getElementById('checkOut').value = '';
+                document.getElementById('bookBtn').disabled = true;
+                return;
+            }
+            
+            const nights = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+            
+            // Calculate extra guest charge (for guests > 2)
+            const extraGuests = Math.max(0, numGuests - 2);
+            const extraGuestTotal = extraGuests * EXTRA_GUEST_PRICE * nights;
+            
+            // Base price calculation
+            const baseTotal = BASE_PRICE * nights;
+            const total = baseTotal + extraGuestTotal;
+            
+            // Update UI
+            document.getElementById('nightsText').textContent = `${nights} night${nights > 1 ? 's' : ''}`;
+            document.getElementById('nightsPrice').textContent = `₹${baseTotal.toLocaleString()}`;
+            
+            const extraGuestRow = document.getElementById('extraGuestRow');
+            if (extraGuests > 0) {
+                extraGuestRow.style.display = 'flex';
+                document.getElementById('extraGuestPrice').textContent = `₹${extraGuestTotal.toLocaleString()} (${extraGuests} extra × ₹${EXTRA_GUEST_PRICE} × ${nights} nights)`;
+            } else {
+                extraGuestRow.style.display = 'none';
+            }
+            
+            document.getElementById('totalPrice').textContent = `₹${total.toLocaleString()}`;
+            
+            // Enable book button if file is selected
+            document.getElementById('bookBtn').disabled = !selectedFile;
+            
+            // Store for booking
+            currentBookingData = {
+                nights,
+                numGuests,
+                extraGuests,
+                baseTotal,
+                extraGuestTotal,
+                total
+            };
+        }
+
+        function handleBooking(event) {
+            event.preventDefault();
+            
+            if (!selectedFile) {
+                alert('Please upload your Aadhaar card');
+                return false;
+            }
+            
+            // Show payment modal with summary
+            const modalSummary = document.getElementById('modalSummary');
+            modalSummary.innerHTML = `
+                <div class="price-row">
+                    <span>Property</span>
+                    <span>Siddha SkyView Studio</span>
+                </div>
+                <div class="price-row">
+                    <span>Check-in</span>
+                    <span>${document.getElementById('checkIn').value}</span>
+                </div>
+                <div class="price-row">
+                    <span>Check-out</span>
+                    <span>${document.getElementById('checkOut').value}</span>
+                </div>
+                <div class="price-row">
+                    <span>Guests</span>
+                    <span>${currentBookingData.numGuests}</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total</span>
+                    <span>₹${currentBookingData.total.toLocaleString()}</span>
+                </div>
+            `;
+            
+            document.getElementById('paymentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            return false;
+        }
+
+        async function confirmPayment() {
+            const formData = new FormData();
+            formData.append('guest_name', document.getElementById('guestName').value);
+            formData.append('guest_phone', document.getElementById('guestPhone').value);
+            formData.append('check_in', document.getElementById('checkIn').value);
+            formData.append('check_out', document.getElementById('checkOut').value);
+            formData.append('num_guests', currentBookingData.numGuests);
+            formData.append('total_price', currentBookingData.total);
+            formData.append('property_name', 'Siddha SkyView Studio');
+            formData.append('aadhaar_file', selectedFile);
+            
+            try {
+                const response = await fetch(`${API_URL}/api/bookings`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    closeModal('paymentModal');
+                    document.getElementById('successMessage').textContent = 
+                        `Booking ID: ${data.booking.booking_id}. Your booking for ${currentBookingData.nights} night(s) has been confirmed. We'll contact you on WhatsApp.`;
+                    document.getElementById('successModal').classList.add('active');
+                } else {
+                    alert('Booking failed: ' + (data.detail || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Booking error:', error);
+                alert('Failed to create booking. Please try again.');
+            }
+        }
+
+        async function loadBookings() {
+            try {
+                const response = await fetch(`${API_URL}/api/bookings`);
+                const data = await response.json();
+                
+                const bookingsList = document.getElementById('bookingsList');
+                const noBookings = document.getElementById('noBookings');
+                const bookingCount = document.getElementById('bookingCount');
+                
+                if (data.bookings && data.bookings.length > 0) {
+                    noBookings.style.display = 'none';
+                    bookingCount.textContent = `${data.bookings.length} booking${data.bookings.length > 1 ? 's' : ''}`;
+                    
+                    bookingsList.innerHTML = data.bookings.map(booking => `
+                        <div class="booking-card" data-testid="booking-card-${booking.booking_id}">
+                            <div class="booking-header">
+                                <div>
+                                    <div class="booking-id">#${booking.booking_id}</div>
+                                    <div class="booking-guest">${booking.guest_name}</div>
+                                </div>
+                                <span class="booking-status">${booking.status}</span>
+                            </div>
+                            <div class="booking-details-grid">
+                                <div class="detail-item">
+                                    <span class="detail-label">Check-in</span>
+                                    <span class="detail-value">${booking.check_in}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Check-out</span>
+                                    <span class="detail-value">${booking.check_out}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Guests</span>
+                                    <span class="detail-value">${booking.num_guests}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Total</span>
+                                    <span class="detail-value">₹${booking.total_price.toLocaleString()}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Phone</span>
+                                    <span class="detail-value">${booking.guest_phone}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Booked On</span>
+                                    <span class="detail-value">${new Date(booking.created_at).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            ${booking.aadhaar_filename ? `
+                                <div class="aadhaar-section">
+                                    <div class="aadhaar-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                        </svg>
+                                    </div>
+                                    <div class="aadhaar-info">
+                                        <div class="aadhaar-title">Aadhaar Card</div>
+                                        <div class="aadhaar-meta">Stored until ${booking.retention_until}</div>
+                                    </div>
+                                    <button class="view-aadhaar-btn" data-testid="view-aadhaar-${booking.booking_id}" onclick="viewAadhaar('${booking.aadhaar_filename}')">View</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('');
+                } else {
+                    noBookings.style.display = 'block';
+                    bookingCount.textContent = '0 bookings';
+                }
+            } catch (error) {
+                console.error('Failed to load bookings:', error);
+            }
+        }
+
+        function viewAadhaar(filename) {
+            const isImage = /\.(jpg|jpeg|png)$/i.test(filename);
+            const preview = document.getElementById('aadhaarPreview');
+            const pdfNote = document.getElementById('aadhaarPdfNote');
+            const pdfLink = document.getElementById('aadhaarPdfLink');
+            
+            if (isImage) {
+                preview.src = `${API_URL}/api/aadhaar/${filename}`;
+                preview.style.display = 'block';
+                pdfNote.style.display = 'none';
+            } else {
+                preview.style.display = 'none';
+                pdfNote.style.display = 'block';
+                pdfLink.href = `${API_URL}/api/aadhaar/${filename}`;
+            }
+            
+            document.getElementById('aadhaarModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeSuccessAndRefresh() {
+            closeModal('successModal');
+            document.getElementById('bookingForm').reset();
+            selectedFile = null;
+            document.getElementById('fileName').textContent = '';
+            document.getElementById('fileUpload').classList.remove('has-file');
+            document.getElementById('totalPrice').textContent = '₹0';
+            document.getElementById('nightsPrice').textContent = '₹0';
+            document.getElementById('nightsText').textContent = '0 nights';
+            document.getElementById('bookBtn').disabled = true;
+        }
+
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close modal on escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>
