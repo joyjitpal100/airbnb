@@ -1,4 +1,5 @@
 [build]
+  command = "cd netlify/functions/vault && npm install"
   functions = "netlify/functions"
   publish = "."
 

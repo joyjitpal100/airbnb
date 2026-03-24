@@ -1,0 +1,13 @@
+backend/
+frontend/
+dev-server.js
+node_modules/
+.git/
+.emergent/
+memory/
+test_reports/
+uploads/
+supabase-setup.sql
+CLAUDE.md
+serve.json
+*.log

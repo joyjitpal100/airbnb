@@ -9,7 +9,7 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const envPath = resolve(__dirname, '../../backend/.env');
+const envPath = resolve(__dirname, 'backend/.env');
 
 try {
   const envContent = readFileSync(envPath, 'utf-8');
@@ -30,7 +30,7 @@ try {
   console.warn('Could not load .env file:', e.message);
 }
 
-const { handler } = await import('./vault.js');
+const { handler } = await import('./netlify/functions/vault/vault.js');
 
 const PORT = 8002;
 
