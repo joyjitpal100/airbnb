@@ -5,15 +5,7 @@
 [functions]
   node_bundler = "esbuild"
 
-# Redirect API calls to Netlify Functions
 [[redirects]]
   from = "/api/vault/*"
   to = "/.netlify/functions/vault/:splat"
   status = 200
-
-# Keep existing backend redirects for bookings
-[[redirects]]
-  from = "/api/*"
-  to = "http://localhost:8001/api/:splat"
-  status = 200
-  force = true
